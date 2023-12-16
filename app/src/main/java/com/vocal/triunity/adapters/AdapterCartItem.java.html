@@ -1,0 +1,148 @@
+<html>
+<head>
+<title>AdapterCartItem.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+AdapterCartItem.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.vocal.triunity.adapters</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.content.Context</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.LayoutInflater</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.RecyclerView</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.vocal.triunity.R</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.activities.ShopDetailsActivity</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.models.ModelCartItem</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">p32929.androideasysql_library.Column</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">p32929.androideasysql_library.EasyDB</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">AdapterCartItem </span><span class="s0">extends </span><span class="s1">RecyclerView.Adapter&lt;AdapterCartItem.HolderCartItem&gt; {</span>
+
+    <span class="s0">private </span><span class="s1">Context context</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">ArrayList&lt;ModelCartItem&gt; cartItems</span><span class="s0">;</span>
+
+    <span class="s0">public </span><span class="s1">AdapterCartItem(Context context</span><span class="s0">,</span><span class="s1">ArrayList&lt;ModelCartItem&gt; cartItems) {</span>
+        <span class="s0">this</span><span class="s1">.context = context</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.cartItems = cartItems</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@NonNull</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">HolderCartItem onCreateViewHolder(@NonNull ViewGroup parent</span><span class="s0">,int </span><span class="s1">viewType) {</span>
+        <span class="s2">//inflate layout row_cartitem.cml</span>
+
+        <span class="s1">View view= LayoutInflater.from(context).inflate(R.layout.row_cartitem</span><span class="s0">,</span><span class="s1">parent</span><span class="s0">,false</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s0">return new </span><span class="s1">HolderCartItem(view)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onBindViewHolder(@NonNull HolderCartItem holder</span><span class="s0">,int </span><span class="s1">position) {</span>
+
+        <span class="s2">//get data</span>
+
+        <span class="s1">ModelCartItem modelCartItem = cartItems.get(position)</span><span class="s0">;</span>
+
+        <span class="s1">String id = modelCartItem.getId()</span><span class="s0">;</span>
+        <span class="s1">String pId = modelCartItem.getpId()</span><span class="s0">;</span>
+        <span class="s1">String title = modelCartItem.getName()</span><span class="s0">;</span>
+        <span class="s1">String cost = modelCartItem.getCost()</span><span class="s0">;</span>
+        <span class="s1">String price = modelCartItem.getPrice()</span><span class="s0">;</span>
+        <span class="s1">String quantity = modelCartItem.getQuantity()</span><span class="s0">;</span>
+
+       <span class="s2">//set data</span>
+        <span class="s1">holder.itemTitleTv.setText(</span><span class="s3">&quot;&quot; </span><span class="s1">+ title)</span><span class="s0">;</span>
+        <span class="s1">holder.itemPriceTv.setText(</span><span class="s3">&quot;&quot; </span><span class="s1">+ cost)</span><span class="s0">;</span>
+        <span class="s1">holder.itemQuantityTv.setText(</span><span class="s3">&quot;[&quot;</span><span class="s1">+quantity+</span><span class="s3">&quot;]&quot;</span><span class="s1">)</span><span class="s0">; </span><span class="s2">//[3]</span>
+        <span class="s1">holder.itemPriceEachTv.setText(</span><span class="s3">&quot;&quot; </span><span class="s1">+ price)</span><span class="s0">;</span>
+
+        <span class="s2">//handle remove click listener , delete item from cart</span>
+        <span class="s1">holder.itemRemoveTv.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s2">//will create table if not exists,but in that case will must exist</span>
+
+                <span class="s1">EasyDB easyDB= EasyDB.init(context</span><span class="s0">,</span><span class="s3">&quot;ITEMS_DB&quot;</span><span class="s1">)</span>
+                        <span class="s1">.setTableName(</span><span class="s3">&quot;ITEMS_TABLE&quot;</span><span class="s1">)</span>
+                        <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Id&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;unique&quot;</span><span class="s1">}))</span>
+                        <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_PID&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                        <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Name&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                        <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Price_Each&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                        <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Price&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                        <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Quantity&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                        <span class="s1">.doneTableColumn()</span><span class="s0">;</span>
+
+                <span class="s1">easyDB.deleteRow(</span><span class="s4">1</span><span class="s0">,</span><span class="s1">id)</span><span class="s0">;  </span><span class="s2">//column number 1 is item id</span>
+
+                <span class="s1">Toast.makeText(context</span><span class="s0">,</span><span class="s3">&quot;Removed From Cart&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+
+                <span class="s2">//refresh list</span>
+                <span class="s1">cartItems.remove(position)</span><span class="s0">;</span>
+                <span class="s1">notifyItemChanged(position) </span><span class="s0">;</span>
+                <span class="s1">notifyDataSetChanged()</span><span class="s0">;</span>
+
+                <span class="s0">double </span><span class="s1">tx = Double.parseDouble((((ShopDetailsActivity)context).allTotalPriceTv.getText().toString().trim().replace(</span><span class="s3">&quot;₹&quot;</span><span class="s0">,</span><span class="s3">&quot;&quot;</span><span class="s1">)))</span><span class="s0">;</span>
+                <span class="s0">double </span><span class="s1">totalPrice = tx - Double.parseDouble(cost.replace(</span><span class="s3">&quot;₹&quot;</span><span class="s0">,</span><span class="s3">&quot;&quot;</span><span class="s1">))</span><span class="s0">;</span>
+                <span class="s0">double </span><span class="s1">deliveryFee =  Double.parseDouble((((ShopDetailsActivity)context).deliveryFee.replace(</span><span class="s3">&quot;₹&quot;</span><span class="s0">,</span><span class="s3">&quot;&quot;</span><span class="s1">)))</span><span class="s0">;</span>
+                <span class="s0">double </span><span class="s1">sTotalPrice =  Double.parseDouble(String.format(</span><span class="s3">&quot;%.2f&quot;</span><span class="s0">,</span><span class="s1">totalPrice)) - Double.parseDouble(String.format(</span><span class="s3">&quot;%2f&quot;</span><span class="s0">,</span><span class="s1">deliveryFee))</span><span class="s0">;</span>
+                <span class="s1">((ShopDetailsActivity)context).allTotalPrice=</span><span class="s4">0.00</span><span class="s0">;</span>
+                <span class="s1">((ShopDetailsActivity)context).sTotalTv.setText(</span><span class="s3">&quot;₹&quot;</span><span class="s1">+String.format(</span><span class="s3">&quot;%.2f&quot;</span><span class="s0">,</span><span class="s1">sTotalPrice))</span><span class="s0">;</span>
+                <span class="s1">((ShopDetailsActivity)context).allTotalPriceTv.setText(</span><span class="s3">&quot;₹&quot;</span><span class="s1">+String.format(</span><span class="s3">&quot;%.2f&quot;</span><span class="s0">,</span><span class="s1">Double.parseDouble(String.format(</span><span class="s3">&quot;%.2f&quot;</span><span class="s0">,</span><span class="s1">totalPrice))))</span><span class="s0">;</span>
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+
+
+
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public int </span><span class="s1">getItemCount() {</span>
+        <span class="s0">return </span><span class="s1">cartItems.size()</span><span class="s0">;  </span><span class="s2">//return number of records</span>
+    <span class="s1">}</span>
+
+    <span class="s2">//view holder class</span>
+    <span class="s0">class </span><span class="s1">HolderCartItem </span><span class="s0">extends </span><span class="s1">RecyclerView.ViewHolder {</span>
+
+        <span class="s2">//ui views of row_cartitem.xml</span>
+
+        <span class="s0">private </span><span class="s1">TextView itemTitleTv</span><span class="s0">,</span><span class="s1">itemPriceTv</span><span class="s0">,</span><span class="s1">itemPriceEachTv</span><span class="s0">,</span><span class="s1">itemQuantityTv</span><span class="s0">,</span><span class="s1">itemRemoveTv</span><span class="s0">;</span>
+
+        <span class="s0">public </span><span class="s1">HolderCartItem(@NonNull View itemView) {</span>
+            <span class="s0">super</span><span class="s1">(itemView)</span><span class="s0">;</span>
+
+            <span class="s1">itemTitleTv = itemView.findViewById(R.id.itemTitleTv)</span><span class="s0">;</span>
+            <span class="s1">itemPriceTv = itemView.findViewById(R.id.itemPriceTv)</span><span class="s0">;</span>
+            <span class="s1">itemPriceEachTv = itemView.findViewById(R.id.itemPriceEachTv)</span><span class="s0">;</span>
+            <span class="s1">itemQuantityTv = itemView.findViewById(R.id.itemQuantityTv)</span><span class="s0">;</span>
+            <span class="s1">itemRemoveTv = itemView.findViewById(R.id.itemRemoveTv)</span><span class="s0">;</span>
+
+
+
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

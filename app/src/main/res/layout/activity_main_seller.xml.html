@@ -1,0 +1,164 @@
+<html>
+<head>
+<title>activity_main_seller.xml</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #e8bf6a;}
+.s1 { color: #bababa;}
+.s2 { color: #6a8759;}
+.s3 { color: #a9b7c6;}
+.s4 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+activity_main_seller.xml</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;?</span><span class="s1">xml version</span><span class="s2">=&quot;1.0&quot; </span><span class="s1">encoding</span><span class="s2">=&quot;utf-8&quot;</span><span class="s0">?&gt;</span>
+<span class="s0">&lt;androidx.drawerlayout.widget.DrawerLayout</span>
+    <span class="s1">android:id</span><span class="s2">=&quot;@+id/drawer&quot;</span>
+    <span class="s1">xmlns:android</span><span class="s2">=&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="s1">xmlns:tools</span><span class="s2">=&quot;http://schemas.android.com/tools&quot;</span>
+    <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+    <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+    <span class="s1">xmlns:app</span><span class="s2">=&quot;http://schemas.android.com/apk/res-auto&quot;</span>
+    <span class="s1">tools:context</span><span class="s2">=&quot;.MainSellerActivity&quot;</span><span class="s0">&gt;</span>
+
+
+    <span class="s0">&lt;RelativeLayout</span>
+        <span class="s1">android:id</span><span class="s2">=&quot;@+id/manageProducts&quot;</span>
+        <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+        <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span><span class="s0">&gt;</span>
+
+        <span class="s0">&lt;com.google.android.material.appbar.AppBarLayout</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:theme</span><span class="s2">=&quot;@style/ThemeOverlay.MaterialComponents.Dark.ActionBar&quot;</span><span class="s0">&gt;</span>
+
+            <span class="s0">&lt;androidx.appcompat.widget.Toolbar</span>
+                <span class="s1">android:id</span><span class="s2">=&quot;@+id/toolbar&quot;</span>
+                <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+                <span class="s1">android:popupTheme</span><span class="s2">=&quot;@style/Theme.Triunity&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;/androidx.appcompat.widget.Toolbar&gt;</span>
+
+
+        <span class="s0">&lt;/com.google.android.material.appbar.AppBarLayout&gt;</span>
+
+
+        <span class="s0">&lt;LinearLayout</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;55dp&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;50dp&quot;</span>
+            <span class="s1">android:padding</span><span class="s2">=&quot;5dp&quot;</span>
+            <span class="s1">android:background</span><span class="s2">=&quot;@drawable/shape_orange&quot;</span>
+            <span class="s1">android:orientation</span><span class="s2">=&quot;horizontal&quot;</span><span class="s0">&gt;</span>
+
+            <span class="s0">&lt;TextView</span>
+                <span class="s1">android:id</span><span class="s2">=&quot;@+id/showProducts&quot;</span>
+                <span class="s1">android:layout_width</span><span class="s2">=&quot;wrap_content&quot;</span>
+                <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+                <span class="s1">android:layout_weight</span><span class="s2">=&quot;1&quot;</span>
+                <span class="s1">android:gravity</span><span class="s2">=&quot;center&quot;</span>
+                <span class="s1">android:text</span><span class="s2">=&quot;Products&quot;</span>
+                <span class="s1">android:textColor</span><span class="s2">=&quot;@color/white&quot;</span>
+                <span class="s1">tools:ignore</span><span class="s2">=&quot;HardcodedText&quot; </span><span class="s0">/&gt;</span>
+
+            <span class="s0">&lt;TextView</span>
+                <span class="s1">android:id</span><span class="s2">=&quot;@+id/showOrders&quot;</span>
+                <span class="s1">android:layout_width</span><span class="s2">=&quot;wrap_content&quot;</span>
+                <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+                <span class="s1">android:background</span><span class="s2">=&quot;@drawable/shape_rect04&quot;</span>
+                <span class="s1">android:gravity</span><span class="s2">=&quot;center&quot;</span>
+                <span class="s1">android:layout_weight</span><span class="s2">=&quot;1&quot;</span>
+                <span class="s1">android:text</span><span class="s2">=&quot;Orders&quot;</span>
+                <span class="s1">android:textColor</span><span class="s2">=&quot;@color/Black&quot;</span>
+                <span class="s1">tools:ignore</span><span class="s2">=&quot;HardcodedText&quot; </span><span class="s0">/&gt;</span>
+        <span class="s0">&lt;/LinearLayout&gt;</span>
+
+    <span class="s0">&lt;/RelativeLayout&gt;</span>
+
+     <span class="s4">&lt;!--Products--&gt;</span>
+    <span class="s0">&lt;RelativeLayout</span>
+        <span class="s1">android:id</span><span class="s2">=&quot;@+id/productRl&quot;</span>
+        <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+        <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+        <span class="s1">android:focusableInTouchMode</span><span class="s2">=&quot;true&quot;</span>
+        <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;105dp&quot;</span><span class="s0">&gt;</span>
+        <span class="s4">&lt;!--Search View--&gt;</span>
+        <span class="s0">&lt;EditText</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/searchProductEt&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;40dp&quot;</span>
+            <span class="s1">android:layout_margin</span><span class="s2">=&quot;5dp&quot;</span>
+            <span class="s1">android:layout_toStartOf</span><span class="s2">=&quot;@+id/filterProductBtn&quot;</span>
+            <span class="s1">android:iconifiedByDefault</span><span class="s2">=&quot;false&quot;</span>
+            <span class="s1">android:background</span><span class="s2">=&quot;@drawable/shape_rect2&quot;</span>
+            <span class="s1">android:drawableStart</span><span class="s2">=&quot;@drawable/ic_search_gray&quot;</span>
+            <span class="s1">android:drawablePadding</span><span class="s2">=&quot;10dp&quot;</span>
+            <span class="s1">android:hint</span><span class="s2">=&quot;@string/search&quot;</span>
+            <span class="s1">android:padding</span><span class="s2">=&quot;10dp&quot;</span>
+            <span class="s1">tools:ignore</span><span class="s2">=&quot;TextFields&quot;</span>
+            <span class="s1">android:autofillHints</span><span class="s2">=&quot;&quot; </span><span class="s0">/&gt;</span>
+        <span class="s4">&lt;!--filter--&gt;</span>
+        <span class="s0">&lt;ImageButton</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/filterProductBtn&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;40dp&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;40dp&quot;</span>
+            <span class="s1">android:layout_alignParentEnd</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;5dp&quot;</span>
+            <span class="s1">android:layout_marginEnd</span><span class="s2">=&quot;5dp&quot;</span>
+            <span class="s1">android:background</span><span class="s2">=&quot;@null&quot;</span>
+            <span class="s1">android:scaleType</span><span class="s2">=&quot;fitXY&quot;</span>
+            <span class="s1">android:src</span><span class="s2">=&quot;@drawable/ic_filter_gray&quot;</span>
+            <span class="s1">android:contentDescription</span><span class="s2">=&quot;TODO&quot;</span>
+            <span class="s1">tools:ignore</span><span class="s2">=&quot;ContentDescription,HardcodedText&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s4">&lt;!--show filtered products title --&gt;</span>
+        <span class="s0">&lt;TextView</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/filterProductTv&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/searchProductEt&quot;</span>
+            <span class="s1">android:textColor</span><span class="s2">=&quot;@color/Black&quot;</span>
+            <span class="s1">android:text</span><span class="s2">=&quot;@string/showing_all&quot;</span>
+            <span class="s1">android:layout_marginStart</span><span class="s2">=&quot;5dp&quot;</span>
+            <span class="s1">android:layout_marginBottom</span><span class="s2">=&quot;5dp&quot;</span><span class="s0">/&gt;</span>
+
+        <span class="s4">&lt;!--RecyclerView: show products--&gt;</span>
+        <span class="s0">&lt;androidx.recyclerview.widget.RecyclerView</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/productsRv&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_below</span><span class="s2">=&quot;@+id/filterProductTv&quot;</span>
+            <span class="s1">app:layoutManager</span><span class="s2">=&quot;androidx.recyclerview.widget.LinearLayoutManager&quot;</span>
+            <span class="s1">tools:listitem</span><span class="s2">=&quot;@layout/row_product_seller&quot;</span><span class="s0">/&gt;</span>
+
+
+    <span class="s0">&lt;/RelativeLayout&gt;</span>
+
+    <span class="s4">&lt;!--Orders--&gt;</span>
+    <span class="s0">&lt;RelativeLayout</span>
+        <span class="s1">android:id</span><span class="s2">=&quot;@+id/orderRl&quot;</span>
+        <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+        <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+        <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;105dp&quot;</span><span class="s0">&gt;</span>
+    <span class="s0">&lt;/RelativeLayout&gt;</span>
+
+
+
+    <span class="s0">&lt;com.google.android.material.navigation.NavigationView</span>
+        <span class="s1">android:layout_width</span><span class="s2">=&quot;wrap_content&quot;</span>
+        <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+        <span class="s1">app:menu</span><span class="s2">=&quot;@menu/main&quot;</span>
+        <span class="s1">app:headerLayout</span><span class="s2">=&quot;@layout/header&quot;</span>
+        <span class="s1">android:layout_gravity</span><span class="s2">=&quot;start&quot;</span>
+        <span class="s1">android:id</span><span class="s2">=&quot;@+id/navigationView&quot;</span><span class="s0">/&gt;</span>
+
+
+
+<span class="s0">&lt;/androidx.drawerlayout.widget.DrawerLayout&gt;</span></pre>
+</body>
+</html>

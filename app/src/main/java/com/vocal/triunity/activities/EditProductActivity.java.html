@@ -1,0 +1,591 @@
+<html>
+<head>
+<title>EditProductActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6897bb;}
+.s4 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+EditProductActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.vocal.triunity.activities</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.Manifest</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.app.ProgressDialog</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.ContentValues</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.DialogInterface</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.pm.PackageManager</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.net.Uri</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.provider.MediaStore</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.text.TextUtils</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.CompoundButton</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ImageButton</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ImageView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.annotation.Nullable</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AlertDialog</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.widget.SwitchCompat</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.core.app.ActivityCompat</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.core.content.ContextCompat</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnFailureListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnSuccessListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.Task</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseAuth</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DataSnapshot</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseError</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseReference</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.FirebaseDatabase</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.ValueEventListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.storage.FirebaseStorage</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.storage.StorageReference</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.storage.UploadTask</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.squareup.picasso.Picasso</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.Constants</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.R</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.util.HashMap</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">EditProductActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+
+
+
+    <span class="s2">//UI views</span>
+    <span class="s1">ImageButton back_btn3</span><span class="s0">;</span>
+    <span class="s1">ImageView productIconIV</span><span class="s0">;</span>
+    <span class="s1">EditText titleEt</span><span class="s0">,</span><span class="s1">descriptionEt</span><span class="s0">,</span><span class="s1">quantityEt</span><span class="s0">,</span><span class="s1">priceEt</span><span class="s0">,</span><span class="s1">discountPriceEt</span><span class="s0">,</span><span class="s1">discountNoteEt</span><span class="s0">;</span>
+    <span class="s1">TextView categoryTv</span><span class="s0">;</span>
+    <span class="s1">SwitchCompat discountSwitch</span><span class="s0">;</span>
+    <span class="s1">Button updateProduct</span><span class="s0">;</span>
+
+    <span class="s0">private </span><span class="s1">String productId</span><span class="s0">;</span>
+
+    <span class="s2">//permission constants</span>
+    <span class="s0">private static final int </span><span class="s1">CAMERA_REQUEST_CODE=</span><span class="s3">200</span><span class="s0">;</span>
+    <span class="s0">private static final int </span><span class="s1">STORAGE_REQUEST_CODE=</span><span class="s3">300</span><span class="s0">;</span>
+
+    <span class="s2">//image pick constants</span>
+    <span class="s0">private static final int </span><span class="s1">IMAGE_PICK_GALLERY_CODE=</span><span class="s3">400</span><span class="s0">;</span>
+    <span class="s0">private static final int </span><span class="s1">IMAGE_PICK_CAMERA_CODE=</span><span class="s3">500</span><span class="s0">;</span>
+
+    <span class="s2">//permission array</span>
+    <span class="s0">private </span><span class="s1">String[] cameraPermissions</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">String[] storagePermissions</span><span class="s0">;</span>
+
+    <span class="s2">//image picked url</span>
+    <span class="s0">private </span><span class="s1">Uri image_uri</span><span class="s0">;</span>
+
+    <span class="s0">private </span><span class="s1">FirebaseAuth firebaseAuth</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">ProgressDialog progressDialog</span><span class="s0">;</span>
+
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s1">setContentView(R.layout.activity_edit_product)</span><span class="s0">;</span>
+
+        <span class="s2">//init views</span>
+
+        <span class="s1">back_btn3=findViewById(R.id.back_btn3)</span><span class="s0">;</span>
+        <span class="s1">productIconIV=findViewById(R.id.productIconIV)</span><span class="s0">;</span>
+        <span class="s1">titleEt=findViewById(R.id.titleEt)</span><span class="s0">;</span>
+        <span class="s1">descriptionEt=findViewById(R.id.descriptionEt)</span><span class="s0">;</span>
+        <span class="s1">categoryTv=findViewById(R.id.categoryTv)</span><span class="s0">;</span>
+        <span class="s1">quantityEt=findViewById(R.id.quantityEt)</span><span class="s0">;</span>
+        <span class="s1">priceEt=findViewById(R.id.priceEt)</span><span class="s0">;</span>
+        <span class="s1">discountSwitch=findViewById(R.id.discountSwitch)</span><span class="s0">;</span>
+        <span class="s1">discountPriceEt=findViewById(R.id.discountPriceEt)</span><span class="s0">;</span>
+        <span class="s1">discountNoteEt=findViewById(R.id.discountNoteEt)</span><span class="s0">;</span>
+        <span class="s1">updateProduct=findViewById(R.id.updateProduct)</span><span class="s0">;</span>
+
+
+        <span class="s1">productId=getIntent().getStringExtra(</span><span class="s4">&quot;productId&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s2">//default (on start is unchecked) : hide discountPriceEt,discountNoteEt</span>
+        <span class="s1">discountPriceEt.setVisibility(View.GONE)</span><span class="s0">;</span>
+        <span class="s1">discountNoteEt.setVisibility(View.GONE)</span><span class="s0">;</span>
+
+        <span class="s1">firebaseAuth = FirebaseAuth.getInstance()</span><span class="s0">;</span>
+        <span class="s1">loadProductDetails()</span><span class="s0">; </span><span class="s2">// to set on views</span>
+
+        <span class="s2">//setup progress dialog</span>
+        <span class="s1">progressDialog = </span><span class="s0">new </span><span class="s1">ProgressDialog(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">progressDialog.setTitle(</span><span class="s4">&quot;Please wait&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">progressDialog.setCanceledOnTouchOutside(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s2">//init permissions</span>
+        <span class="s1">cameraPermissions =</span><span class="s0">new </span><span class="s1">String[]{Manifest.permission.CAMERA</span><span class="s0">,</span><span class="s1">Manifest.permission.WRITE_EXTERNAL_STORAGE}</span><span class="s0">;</span>
+        <span class="s1">storagePermissions=</span><span class="s0">new </span><span class="s1">String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}</span><span class="s0">;</span>
+
+
+        <span class="s2">// if discountSwitch is checked : show discountPriceEt, discountNoteEt | if discount is not checked: hide discountPriceEt,discountNoteEt</span>
+        <span class="s1">discountSwitch.setOnCheckedChangeListener(</span><span class="s0">new </span><span class="s1">CompoundButton.OnCheckedChangeListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onCheckedChanged(CompoundButton buttonView</span><span class="s0">,boolean </span><span class="s1">isChecked) {</span>
+                <span class="s0">if</span><span class="s1">(isChecked){</span>
+                    <span class="s2">//checked : show discountPriceEt,discountNoteEt</span>
+                    <span class="s1">discountPriceEt.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                    <span class="s1">discountNoteEt.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+
+                <span class="s1">}</span>
+                <span class="s0">else</span><span class="s1">{</span>
+                    <span class="s2">//unchecked : hide discountPriceEt,discountNoteEt</span>
+                    <span class="s1">discountPriceEt.setVisibility(View.GONE)</span><span class="s0">;</span>
+                    <span class="s1">discountNoteEt.setVisibility(View.GONE)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+
+        <span class="s1">productIconIV.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s2">//show dialog to pick image</span>
+                <span class="s1">showImagePickDialog()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">categoryTv.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s2">//pick category</span>
+                <span class="s1">categoryDialog()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">updateProduct.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s2">//Flow</span>
+                <span class="s2">//1) Input Data</span>
+                <span class="s2">//2) Validate Data</span>
+                <span class="s2">//3) update data to db</span>
+                <span class="s1">inputData()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">back_btn3.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+               <span class="s1">onBackPressed()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">loadProductDetails() {</span>
+
+        <span class="s1">DatabaseReference reference = FirebaseDatabase.getInstance().getReference(</span><span class="s4">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">reference.child(firebaseAuth.getUid()).child(</span><span class="s4">&quot;Products&quot;</span><span class="s1">).child(productId)</span>
+                <span class="s1">.addValueEventListener(</span><span class="s0">new </span><span class="s1">ValueEventListener() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onDataChange(@NonNull DataSnapshot snapshot) {</span>
+                        <span class="s2">// get data</span>
+                        <span class="s1">String productId =</span><span class="s4">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s4">&quot;productId&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                        <span class="s1">String productTitle =</span><span class="s4">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s4">&quot;productTitle&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                        <span class="s1">String productDescription =</span><span class="s4">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s4">&quot;productDescription&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                        <span class="s1">String productCategory =</span><span class="s4">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s4">&quot;productCategory&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                        <span class="s1">String productQuantity =</span><span class="s4">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s4">&quot;productQuantity&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                        <span class="s1">String productIcon =</span><span class="s4">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s4">&quot;productIcon&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                        <span class="s1">String originalPrice =</span><span class="s4">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s4">&quot;originalPrice&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                        <span class="s1">String discountPrice =</span><span class="s4">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s4">&quot;discountPrice&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                        <span class="s1">String discountNote =</span><span class="s4">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s4">&quot;discountNote&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                        <span class="s1">String discountAvailable =</span><span class="s4">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s4">&quot;discountAvailable&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                        <span class="s1">String timestamp =</span><span class="s4">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s4">&quot;timestamp&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                        <span class="s1">String uid =</span><span class="s4">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s4">&quot;uid&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+
+
+                        <span class="s2">//set data to views</span>
+                        <span class="s0">if</span><span class="s1">(discountAvailable.equals(</span><span class="s4">&quot;true&quot;</span><span class="s1">)){</span>
+                            <span class="s1">discountSwitch.setChecked(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+
+                            <span class="s1">discountPriceEt.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+                            <span class="s1">discountNoteEt.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+
+                        <span class="s1">}</span>
+
+                        <span class="s0">else</span><span class="s1">{</span>
+                            <span class="s1">discountSwitch.setChecked(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+
+                            <span class="s1">discountPriceEt.setVisibility(View.GONE)</span><span class="s0">;</span>
+                            <span class="s1">discountNoteEt.setVisibility(View.GONE)</span><span class="s0">;</span>
+
+
+                        <span class="s1">}</span>
+
+                        <span class="s1">titleEt.setText(productTitle)</span><span class="s0">;</span>
+                        <span class="s1">descriptionEt.setText(productDescription)</span><span class="s0">;</span>
+                        <span class="s1">categoryTv.setText(productCategory)</span><span class="s0">;</span>
+                        <span class="s1">discountNoteEt.setText(discountNote)</span><span class="s0">;</span>
+                        <span class="s1">quantityEt.setText(productQuantity)</span><span class="s0">;</span>
+                        <span class="s1">priceEt.setText(originalPrice)</span><span class="s0">;</span>
+                        <span class="s1">discountPriceEt.setText(discountPrice)</span><span class="s0">;</span>
+
+                        <span class="s0">try</span><span class="s1">{</span>
+                            <span class="s1">Picasso.get().load(productIcon).placeholder(R.drawable.product_icon).into(productIconIV)</span><span class="s0">;</span>
+                           <span class="s1">}</span>
+                        <span class="s0">catch </span><span class="s1">(Exception e){</span>
+                            <span class="s1">productIconIV.setImageResource(R.drawable.product_icon)</span><span class="s0">;</span>
+
+                        <span class="s1">}</span>
+
+
+                    <span class="s1">}</span>
+
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onCancelled(@NonNull DatabaseError error) {</span>
+
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+    <span class="s0">private </span><span class="s1">String productTitle</span><span class="s0">,</span><span class="s1">productDescription</span><span class="s0">,</span><span class="s1">productCategory</span><span class="s0">,</span><span class="s1">productQuantity</span><span class="s0">,</span><span class="s1">originalPrice</span><span class="s0">,</span><span class="s1">discountPrice</span><span class="s0">,</span><span class="s1">discountNote</span><span class="s0">;</span>
+    <span class="s0">private boolean </span><span class="s1">discountAvailable = </span><span class="s0">false;</span>
+
+    <span class="s0">private void </span><span class="s1">inputData() {</span>
+        <span class="s2">// 1) Input Data</span>
+        <span class="s1">productTitle = titleEt.getText().toString().trim()</span><span class="s0">;</span>
+        <span class="s1">productDescription = descriptionEt.getText().toString().trim()</span><span class="s0">;</span>
+        <span class="s1">productCategory = categoryTv.getText().toString().trim()</span><span class="s0">;</span>
+        <span class="s1">productQuantity = quantityEt.getText().toString().trim()</span><span class="s0">;</span>
+        <span class="s1">originalPrice = priceEt.getText().toString().trim()</span><span class="s0">;</span>
+        <span class="s1">discountAvailable = discountSwitch.isChecked()</span><span class="s0">; </span><span class="s2">// true or false</span>
+
+
+        <span class="s2">// 2) Validate Data</span>
+        <span class="s0">if </span><span class="s1">(TextUtils.isEmpty(productTitle)){</span>
+            <span class="s1">Toast.makeText(</span><span class="s0">this,</span><span class="s4">&quot;Title must required.&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+            <span class="s0">return;</span>
+        <span class="s1">}</span>
+        <span class="s0">if </span><span class="s1">(TextUtils.isEmpty(productCategory)){</span>
+            <span class="s1">Toast.makeText(</span><span class="s0">this,</span><span class="s4">&quot;Category must required.&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+            <span class="s0">return;</span>
+        <span class="s1">}</span>
+
+        <span class="s0">if </span><span class="s1">(TextUtils.isEmpty(originalPrice)){</span>
+            <span class="s1">Toast.makeText(</span><span class="s0">this,</span><span class="s4">&quot;Price must required.&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+            <span class="s0">return;</span>
+        <span class="s1">}</span>
+        <span class="s0">if </span><span class="s1">(discountAvailable){</span>
+            <span class="s2">//product is with discount</span>
+            <span class="s1">discountPrice = discountPriceEt.getText().toString().trim()</span><span class="s0">;</span>
+            <span class="s1">discountNote = discountNoteEt.getText().toString().trim()</span><span class="s0">;</span>
+
+            <span class="s0">if </span><span class="s1">(TextUtils.isEmpty(discountPrice)){</span>
+                <span class="s1">Toast.makeText(</span><span class="s0">this,</span><span class="s4">&quot;Discount Price is Required&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                <span class="s0">return;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s0">else</span>
+        <span class="s1">{</span>
+            <span class="s2">//product is without discount</span>
+            <span class="s1">discountPrice = </span><span class="s4">&quot;0&quot;</span><span class="s0">;</span>
+            <span class="s1">discountNote = </span><span class="s4">&quot;&quot;</span><span class="s0">;</span>
+
+        <span class="s1">}</span>
+
+         <span class="s1">updateProductData()</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">updateProductData() {</span>
+        <span class="s2">//show progress</span>
+        <span class="s1">progressDialog.setMessage(</span><span class="s4">&quot;Updating Product&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">progressDialog.show()</span><span class="s0">;</span>
+
+        <span class="s0">if</span><span class="s1">(image_uri == </span><span class="s0">null</span><span class="s1">){</span>
+            <span class="s2">//upload without image</span>
+
+            <span class="s2">//setup data in hashmap to update</span>
+            <span class="s1">HashMap&lt;String</span><span class="s0">,</span><span class="s1">Object&gt; hashMap = </span><span class="s0">new </span><span class="s1">HashMap&lt;&gt;()</span><span class="s0">;</span>
+            <span class="s1">hashMap.put(</span><span class="s4">&quot;productTitle&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ productTitle)</span><span class="s0">;</span>
+            <span class="s1">hashMap.put(</span><span class="s4">&quot;productDescription&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ productDescription)</span><span class="s0">;</span>
+            <span class="s1">hashMap.put(</span><span class="s4">&quot;productCategory&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ productCategory)</span><span class="s0">;</span>
+            <span class="s1">hashMap.put(</span><span class="s4">&quot;productQuantity&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ productQuantity)</span><span class="s0">;</span>
+            <span class="s1">hashMap.put(</span><span class="s4">&quot;originalPrice&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ originalPrice)</span><span class="s0">;</span>
+            <span class="s1">hashMap.put(</span><span class="s4">&quot;discountPrice&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ discountPrice)</span><span class="s0">;</span>
+            <span class="s1">hashMap.put(</span><span class="s4">&quot;discountNote&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ discountNote)</span><span class="s0">;</span>
+            <span class="s1">hashMap.put(</span><span class="s4">&quot;discountAvailable&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ discountAvailable)</span><span class="s0">;</span>
+
+            <span class="s2">//update to db</span>
+
+            <span class="s1">DatabaseReference reference = FirebaseDatabase.getInstance().getReference(</span><span class="s4">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">reference.child(firebaseAuth.getUid()).child(</span><span class="s4">&quot;Products&quot;</span><span class="s1">).child(productId).updateChildren(hashMap)</span>
+                    <span class="s1">.addOnSuccessListener(</span><span class="s0">new </span><span class="s1">OnSuccessListener&lt;Void&gt;() {</span>
+                        <span class="s1">@Override</span>
+                        <span class="s0">public void </span><span class="s1">onSuccess(Void aVoid) {</span>
+                            <span class="s2">//add to database</span>
+                            <span class="s1">progressDialog.dismiss()</span><span class="s0">;</span>
+                            <span class="s1">Toast.makeText(EditProductActivity.</span><span class="s0">this,</span><span class="s4">&quot;Product Updated.&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">})</span>
+                    <span class="s1">.addOnFailureListener(</span><span class="s0">new </span><span class="s1">OnFailureListener() {</span>
+                        <span class="s1">@Override</span>
+                        <span class="s0">public void </span><span class="s1">onFailure(@NonNull Exception e) {</span>
+                            <span class="s2">//failed adding to db</span>
+                            <span class="s1">progressDialog.dismiss()</span><span class="s0">;</span>
+                            <span class="s1">Toast.makeText(EditProductActivity.</span><span class="s0">this,</span><span class="s4">&quot;&quot;</span><span class="s1">+e.getMessage()</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">})</span><span class="s0">;</span>
+
+
+
+        <span class="s1">}</span>
+        <span class="s0">else</span><span class="s1">{</span>
+            <span class="s2">//upload with image</span>
+            <span class="s2">//first upload image to storage</span>
+            <span class="s2">//image name and path on firebase storage</span>
+            <span class="s1">String filePathAndName = </span><span class="s4">&quot;product_image/&quot; </span><span class="s1">+ </span><span class="s4">&quot; &quot; </span><span class="s1">+ productId</span><span class="s0">; </span><span class="s2">//override previous image using same id</span>
+            <span class="s1">StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName)</span><span class="s0">;</span>
+            <span class="s1">storageReference.putFile(image_uri)</span>
+                    <span class="s1">.addOnSuccessListener(</span><span class="s0">new </span><span class="s1">OnSuccessListener&lt;UploadTask.TaskSnapshot&gt;() {</span>
+                        <span class="s1">@Override</span>
+                        <span class="s0">public void </span><span class="s1">onSuccess(UploadTask.TaskSnapshot taskSnapshot) {</span>
+                            <span class="s2">//image uploaded ,get url of uploaded image</span>
+
+                            <span class="s1">Task&lt;Uri&gt; uriTask = taskSnapshot.getStorage().getDownloadUrl()</span><span class="s0">;</span>
+                            <span class="s0">while </span><span class="s1">(!uriTask.isSuccessful()) </span><span class="s0">;</span>
+                            <span class="s1">Uri downloadImageUri = uriTask.getResult()</span><span class="s0">;</span>
+                            <span class="s0">if </span><span class="s1">(uriTask.isSuccessful()) {</span>
+                                <span class="s2">//url of image received, upload to db</span>
+
+                                <span class="s2">//setup data in hashmap to update</span>
+                                <span class="s1">HashMap&lt;String</span><span class="s0">,</span><span class="s1">Object&gt; hashMap = </span><span class="s0">new </span><span class="s1">HashMap&lt;&gt;()</span><span class="s0">;</span>
+                                <span class="s1">hashMap.put(</span><span class="s4">&quot;productTitle&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ productTitle)</span><span class="s0">;</span>
+                                <span class="s1">hashMap.put(</span><span class="s4">&quot;productDescription&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ productDescription)</span><span class="s0">;</span>
+                                <span class="s1">hashMap.put(</span><span class="s4">&quot;productCategory&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ productCategory)</span><span class="s0">;</span>
+                                <span class="s1">hashMap.put(</span><span class="s4">&quot;productIcon&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ downloadImageUri)</span><span class="s0">;</span>
+                                <span class="s1">hashMap.put(</span><span class="s4">&quot;productQuantity&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ productQuantity)</span><span class="s0">;</span>
+                                <span class="s1">hashMap.put(</span><span class="s4">&quot;originalPrice&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ originalPrice)</span><span class="s0">;</span>
+                                <span class="s1">hashMap.put(</span><span class="s4">&quot;discountPrice&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ discountPrice)</span><span class="s0">;</span>
+                                <span class="s1">hashMap.put(</span><span class="s4">&quot;discountNote&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ discountNote)</span><span class="s0">;</span>
+                                <span class="s1">hashMap.put(</span><span class="s4">&quot;discountAvailable&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot; </span><span class="s1">+ discountAvailable)</span><span class="s0">;</span>
+
+                                <span class="s2">//update to db</span>
+
+                                <span class="s1">DatabaseReference reference = FirebaseDatabase.getInstance().getReference(</span><span class="s4">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                                <span class="s1">reference.child(firebaseAuth.getUid()).child(</span><span class="s4">&quot;Products&quot;</span><span class="s1">).child(productId).updateChildren(hashMap)</span>
+                                        <span class="s1">.addOnSuccessListener(</span><span class="s0">new </span><span class="s1">OnSuccessListener&lt;Void&gt;() {</span>
+                                            <span class="s1">@Override</span>
+                                            <span class="s0">public void </span><span class="s1">onSuccess(Void aVoid) {</span>
+                                                <span class="s2">//add to database</span>
+                                                <span class="s1">progressDialog.dismiss()</span><span class="s0">;</span>
+                                                <span class="s1">Toast.makeText(EditProductActivity.</span><span class="s0">this,</span><span class="s4">&quot;Product Updated.&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                                            <span class="s1">}</span>
+                                        <span class="s1">})</span>
+                                        <span class="s1">.addOnFailureListener(</span><span class="s0">new </span><span class="s1">OnFailureListener() {</span>
+                                            <span class="s1">@Override</span>
+                                            <span class="s0">public void </span><span class="s1">onFailure(@NonNull Exception e) {</span>
+                                                <span class="s2">//failed adding to db</span>
+                                                <span class="s1">progressDialog.dismiss()</span><span class="s0">;</span>
+                                                <span class="s1">Toast.makeText(EditProductActivity.</span><span class="s0">this,</span><span class="s4">&quot;&quot;</span><span class="s1">+e.getMessage()</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                                            <span class="s1">}</span>
+                                        <span class="s1">})</span><span class="s0">;</span>
+
+                            <span class="s1">}</span>
+                        <span class="s1">}</span>
+                    <span class="s1">})</span>
+                    <span class="s1">.addOnFailureListener(</span><span class="s0">new </span><span class="s1">OnFailureListener() {</span>
+                        <span class="s1">@Override</span>
+                        <span class="s0">public void </span><span class="s1">onFailure(@NonNull Exception e) {</span>
+                            <span class="s1">progressDialog.dismiss()</span><span class="s0">;</span>
+                            <span class="s1">Toast.makeText(EditProductActivity.</span><span class="s0">this,</span><span class="s4">&quot;&quot;</span><span class="s1">+e.getMessage()</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">categoryDialog() {</span>
+        <span class="s2">//dialog</span>
+        <span class="s1">AlertDialog.Builder builder = </span><span class="s0">new </span><span class="s1">AlertDialog.Builder(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">builder.setTitle(</span><span class="s4">&quot;Local Products Category&quot;</span><span class="s1">)</span>
+                <span class="s1">.setItems(Constants.productCategories</span><span class="s0">,new </span><span class="s1">DialogInterface.OnClickListener() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onClick(DialogInterface dialog</span><span class="s0">,int </span><span class="s1">which) {</span>
+                        <span class="s2">// get picked category</span>
+                        <span class="s1">String category = Constants.productCategories[which]</span><span class="s0">;</span>
+
+                        <span class="s2">//set picked category</span>
+                        <span class="s1">categoryTv.setText(category)</span><span class="s0">;</span>
+
+                    <span class="s1">}</span>
+                <span class="s1">})</span>
+                <span class="s1">.show()</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+
+
+    <span class="s0">private void </span><span class="s1">showImagePickDialog() {</span>
+
+
+        <span class="s2">//options to display in dialog</span>
+        <span class="s1">String[] options={</span><span class="s4">&quot;Camera&quot;</span><span class="s0">,</span><span class="s4">&quot;Gallery&quot;</span><span class="s1">}</span><span class="s0">;</span>
+        <span class="s2">//dialog</span>
+        <span class="s1">AlertDialog.Builder builder = </span><span class="s0">new </span><span class="s1">AlertDialog.Builder(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">builder.setTitle(</span><span class="s4">&quot;Pick Image&quot;</span><span class="s1">)</span>
+                <span class="s1">.setItems(options</span><span class="s0">,new </span><span class="s1">DialogInterface.OnClickListener() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onClick(DialogInterface dialog</span><span class="s0">,int </span><span class="s1">which) {</span>
+
+                        <span class="s2">//handles item</span>
+                        <span class="s0">if </span><span class="s1">(which==</span><span class="s3">0</span><span class="s1">){</span>
+                            <span class="s2">//camera clicked</span>
+                            <span class="s0">if</span><span class="s1">(checkCameraPermission()){</span>
+                                <span class="s2">//permission granted</span>
+                                <span class="s1">pickFromCamera()</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+                            <span class="s0">else</span>
+                            <span class="s1">{</span>
+                                <span class="s2">//permission not granted, request</span>
+                                <span class="s1">requestCameraPermission()</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+                        <span class="s1">}</span>
+                        <span class="s0">else</span><span class="s1">{</span>
+                            <span class="s2">//gallery picked</span>
+                            <span class="s0">if</span><span class="s1">(checkStoragePermission()){</span>
+                                <span class="s2">//permission granted</span>
+                                <span class="s1">pickFromGallery()</span><span class="s0">;</span>
+
+                            <span class="s1">}</span>
+                            <span class="s0">else</span><span class="s1">{</span>
+                                <span class="s2">//permission not granted, request</span>
+                                <span class="s1">requestStoragePermission()</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+
+                        <span class="s1">}</span>
+                    <span class="s1">}</span>
+                <span class="s1">})</span>
+                <span class="s1">.show()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">pickFromGallery(){</span>
+        <span class="s2">//pick from gallery</span>
+        <span class="s1">Intent intent = </span><span class="s0">new </span><span class="s1">Intent(Intent.ACTION_PICK)</span><span class="s0">;</span>
+        <span class="s1">intent.setType(</span><span class="s4">&quot;image/*&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">startActivityForResult(intent</span><span class="s0">,</span><span class="s1">IMAGE_PICK_GALLERY_CODE)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">pickFromCamera(){</span>
+
+        <span class="s2">//using media store to pick high /original quality image</span>
+        <span class="s1">ContentValues contentValues = </span><span class="s0">new </span><span class="s1">ContentValues()</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(MediaStore.Images.Media.TITLE</span><span class="s0">, </span><span class="s4">&quot;Temp_Image_Title&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(MediaStore.Images.Media.DESCRIPTION</span><span class="s0">,</span><span class="s4">&quot;Temp_Image_Description&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s1">image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI</span><span class="s0">,</span><span class="s1">contentValues)</span><span class="s0">;</span>
+        <span class="s1">Intent intent = </span><span class="s0">new </span><span class="s1">Intent(MediaStore.ACTION_IMAGE_CAPTURE)</span><span class="s0">;</span>
+        <span class="s1">intent.putExtra(MediaStore.EXTRA_OUTPUT</span><span class="s0">,</span><span class="s1">image_uri)</span><span class="s0">;</span>
+        <span class="s1">startActivityForResult(intent</span><span class="s0">,</span><span class="s1">IMAGE_PICK_CAMERA_CODE)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private boolean </span><span class="s1">checkStoragePermission(){</span>
+        <span class="s0">boolean </span><span class="s1">result = ContextCompat.checkSelfPermission(</span><span class="s0">this,</span><span class="s1">Manifest.permission.WRITE_EXTERNAL_STORAGE) ==</span>
+                <span class="s1">(PackageManager.PERMISSION_GRANTED)</span><span class="s0">;</span>
+        <span class="s0">return </span><span class="s1">result</span><span class="s0">; </span><span class="s2">// return true or false</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">requestStoragePermission(){</span>
+        <span class="s1">ActivityCompat.requestPermissions(</span><span class="s0">this,</span><span class="s1">storagePermissions</span><span class="s0">,</span><span class="s1">STORAGE_REQUEST_CODE)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private boolean </span><span class="s1">checkCameraPermission(){</span>
+
+        <span class="s0">boolean </span><span class="s1">result = ContextCompat.checkSelfPermission(</span><span class="s0">this,</span><span class="s1">Manifest.permission.CAMERA) ==</span>
+                <span class="s1">(PackageManager.PERMISSION_GRANTED)</span><span class="s0">;</span>
+
+        <span class="s0">boolean </span><span class="s1">result1 = ContextCompat.checkSelfPermission(</span><span class="s0">this,</span><span class="s1">Manifest.permission.WRITE_EXTERNAL_STORAGE) ==</span>
+                <span class="s1">(PackageManager.PERMISSION_GRANTED)</span><span class="s0">;</span>
+
+        <span class="s0">return </span><span class="s1">result &amp;&amp; result1</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">requestCameraPermission(){</span>
+        <span class="s1">ActivityCompat.requestPermissions(</span><span class="s0">this,</span><span class="s1">cameraPermissions</span><span class="s0">,</span><span class="s1">CAMERA_REQUEST_CODE)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+    <span class="s2">// handle permission results</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onRequestPermissionsResult(</span><span class="s0">int </span><span class="s1">requestCode</span><span class="s0">,</span><span class="s1">@NonNull String[] permissions</span><span class="s0">,</span><span class="s1">@NonNull </span><span class="s0">int</span><span class="s1">[] grantResults) {</span>
+        <span class="s0">switch </span><span class="s1">(requestCode){</span>
+
+            <span class="s0">case </span><span class="s1">CAMERA_REQUEST_CODE:{</span>
+                <span class="s0">if</span><span class="s1">(grantResults.length&gt;</span><span class="s3">0</span><span class="s1">){</span>
+                    <span class="s0">boolean </span><span class="s1">cameraAccepted = grantResults[</span><span class="s3">0</span><span class="s1">] == PackageManager.PERMISSION_GRANTED</span><span class="s0">;</span>
+                    <span class="s0">boolean </span><span class="s1">storageAccepted = grantResults[</span><span class="s3">1</span><span class="s1">] == PackageManager.PERMISSION_GRANTED</span><span class="s0">;</span>
+                    <span class="s0">if</span><span class="s1">(cameraAccepted &amp;&amp; storageAccepted){</span>
+                        <span class="s2">//both permissions granted</span>
+                        <span class="s1">pickFromCamera()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                    <span class="s0">else</span><span class="s1">{</span>
+                        <span class="s2">//both or one of permissions denied</span>
+                        <span class="s1">Toast.makeText(</span><span class="s0">this,</span><span class="s4">&quot;Camera &amp; Storage permissions are required..&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+
+            <span class="s0">case </span><span class="s1">STORAGE_REQUEST_CODE:{</span>
+                <span class="s0">if</span><span class="s1">(grantResults.length&gt;</span><span class="s3">0</span><span class="s1">){</span>
+                    <span class="s0">boolean </span><span class="s1">storageAccepted = grantResults[</span><span class="s3">0</span><span class="s1">] == PackageManager.PERMISSION_GRANTED</span><span class="s0">;</span>
+                    <span class="s0">if</span><span class="s1">(storageAccepted){</span>
+                        <span class="s2">//permission grated</span>
+                        <span class="s1">pickFromGallery()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                    <span class="s0">else</span><span class="s1">{</span>
+                        <span class="s1">Toast.makeText(</span><span class="s0">this,</span><span class="s4">&quot;Storage permissions is required..&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+
+                    <span class="s1">}</span>
+                <span class="s1">}</span>
+
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s0">super</span><span class="s1">.onRequestPermissionsResult(requestCode</span><span class="s0">,</span><span class="s1">permissions</span><span class="s0">,</span><span class="s1">grantResults)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+    <span class="s2">//handle image pick results</span>
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onActivityResult(</span><span class="s0">int </span><span class="s1">requestCode</span><span class="s0">,int </span><span class="s1">resultCode</span><span class="s0">,</span><span class="s1">@Nullable Intent data) {</span>
+        <span class="s0">if</span><span class="s1">(resultCode == RESULT_OK){</span>
+
+            <span class="s0">if</span><span class="s1">(requestCode == IMAGE_PICK_GALLERY_CODE){</span>
+                <span class="s2">//image picked from gallery</span>
+
+                <span class="s2">//save picked image uri</span>
+                <span class="s1">image_uri =data.getData()</span><span class="s0">;</span>
+
+                <span class="s2">//set image</span>
+                <span class="s1">productIconIV.setImageURI(image_uri)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s0">else if </span><span class="s1">(requestCode == IMAGE_PICK_CAMERA_CODE){</span>
+                <span class="s2">//image picked from camera</span>
+                <span class="s1">productIconIV.setImageURI(image_uri)</span><span class="s0">;</span>
+
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+
+        <span class="s0">super</span><span class="s1">.onActivityResult(requestCode</span><span class="s0">,</span><span class="s1">resultCode</span><span class="s0">,</span><span class="s1">data)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+<span class="s1">}</span></pre>
+</body>
+</html>

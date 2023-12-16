@@ -1,0 +1,437 @@
+<html>
+<head>
+<title>ShopDetailsActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+ShopDetailsActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.vocal.triunity.activities</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.annotation.SuppressLint</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.DialogInterface</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.database.Cursor</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.net.Uri</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.text.Editable</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.text.TextWatcher</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.LayoutInflater</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ImageButton</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ImageView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AlertDialog</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.RecyclerView</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseAuth</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DataSnapshot</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseError</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseReference</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.FirebaseDatabase</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.ValueEventListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.squareup.picasso.Picasso</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.Constants</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.R</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.adapters.AdapterCartItem</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.adapters.AdapterProductBuyer</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.models.ModelCartItem</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.models.ModelProduct</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">p32929.androideasysql_library.Column</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">p32929.androideasysql_library.EasyDB</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">ShopDetailsActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+
+    <span class="s2">//declare ui views</span>
+
+    <span class="s0">private </span><span class="s1">ImageView shopIv</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">TextView shopNameTv</span><span class="s0">,</span><span class="s1">phoneTv</span><span class="s0">,</span><span class="s1">emailTv</span><span class="s0">,</span><span class="s1">openCloseTv</span><span class="s0">,</span><span class="s1">deliveryFeeTv</span><span class="s0">,</span><span class="s1">addressTv</span><span class="s0">,</span><span class="s1">filterProductTv</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">ImageButton callBtn</span><span class="s0">,</span><span class="s1">mapBtn</span><span class="s0">,</span><span class="s1">BackBtn</span><span class="s0">,</span><span class="s1">cartBtn</span><span class="s0">,</span><span class="s1">filterProductBtn</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">EditText searchProductEt</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">RecyclerView productsRv</span><span class="s0">;</span>
+
+    <span class="s0">private </span><span class="s1">String shopUid</span><span class="s0">;</span>
+
+
+    <span class="s0">private </span><span class="s1">String shopName</span><span class="s0">,</span><span class="s1">shopEmail</span><span class="s0">,</span><span class="s1">shopPhone</span><span class="s0">,</span><span class="s1">shopAddress</span><span class="s0">,</span><span class="s1">shopLatitude</span><span class="s0">, </span><span class="s1">shopLongitude</span><span class="s0">;</span>
+    <span class="s0">public   </span><span class="s1">String deliveryFee</span><span class="s0">;</span>
+
+    <span class="s0">private </span><span class="s1">String myLatitude</span><span class="s0">,</span><span class="s1">myLongitude</span><span class="s0">;</span>
+
+    <span class="s0">private </span><span class="s1">FirebaseAuth firebaseAuth</span><span class="s0">;</span>
+
+    <span class="s0">private </span><span class="s1">AdapterProductBuyer adapterProductBuyer</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">ArrayList&lt;ModelProduct&gt; productsList</span><span class="s0">;</span>
+
+    <span class="s2">//cart</span>
+       <span class="s0">private </span><span class="s1">AdapterCartItem adapterCartItem</span><span class="s0">;</span>
+       <span class="s0">private </span><span class="s1">ArrayList&lt;ModelCartItem&gt; cartItemList</span><span class="s0">;</span>
+
+
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s1">setContentView(R.layout.activity_shop_details)</span><span class="s0">;</span>
+        <span class="s1">shopIv=findViewById(R.id.shopIv)</span><span class="s0">;</span>
+        <span class="s1">shopNameTv=findViewById(R.id.shopNameTv)</span><span class="s0">;</span>
+        <span class="s1">phoneTv=findViewById(R.id.phoneTv)</span><span class="s0">;</span>
+        <span class="s1">emailTv=findViewById(R.id.emailTv)</span><span class="s0">;</span>
+        <span class="s1">openCloseTv=findViewById(R.id.openCloseTv)</span><span class="s0">;</span>
+        <span class="s1">deliveryFeeTv=findViewById(R.id.deliveryFeeTv)</span><span class="s0">;</span>
+        <span class="s1">addressTv=findViewById(R.id.addressTv)</span><span class="s0">;</span>
+        <span class="s1">filterProductTv=findViewById(R.id.filterProductTv)</span><span class="s0">;</span>
+        <span class="s1">callBtn=findViewById(R.id.callBtn)</span><span class="s0">;</span>
+        <span class="s1">mapBtn=findViewById(R.id.mapBtn)</span><span class="s0">;</span>
+        <span class="s1">BackBtn=findViewById(R.id.BackBtn)</span><span class="s0">;</span>
+        <span class="s1">cartBtn=findViewById(R.id.cartBtn)</span><span class="s0">;</span>
+        <span class="s1">filterProductBtn=findViewById(R.id.filterProductBtn)</span><span class="s0">;</span>
+        <span class="s1">searchProductEt=findViewById(R.id.searchProductEt)</span><span class="s0">;</span>
+        <span class="s1">productsRv=findViewById(R.id.productsRv)</span><span class="s0">;</span>
+
+        <span class="s1">shopUid=getIntent().getStringExtra(</span><span class="s3">&quot;shopUid&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">firebaseAuth = FirebaseAuth.getInstance()</span><span class="s0">;</span>
+        <span class="s1">loadMyInfo()</span><span class="s0">;</span>
+        <span class="s1">loadShopDetails()</span><span class="s0">;</span>
+        <span class="s1">loadShopProducts()</span><span class="s0">;</span>
+
+        <span class="s2">//each shop have its own products and orders so if user add items to cart and go back and open cart in different shop then cart should be different</span>
+        <span class="s2">//so delete cart data whenever user open this activity</span>
+          <span class="s1">deleteCartData()</span><span class="s0">;</span>
+        <span class="s2">//search</span>
+        <span class="s1">searchProductEt.addTextChangedListener(</span><span class="s0">new </span><span class="s1">TextWatcher() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">beforeTextChanged(CharSequence s</span><span class="s0">,int </span><span class="s1">start</span><span class="s0">,int </span><span class="s1">count</span><span class="s0">,int </span><span class="s1">after) {</span>
+
+            <span class="s1">}</span>
+
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onTextChanged(CharSequence s</span><span class="s0">,int </span><span class="s1">start</span><span class="s0">,int </span><span class="s1">before</span><span class="s0">,int </span><span class="s1">count) {</span>
+                <span class="s0">try</span><span class="s1">{</span>
+                    <span class="s1">adapterProductBuyer.getFilter().filter(s)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">catch </span><span class="s1">(Exception e){</span>
+                    <span class="s1">e.printStackTrace()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+
+            <span class="s1">}</span>
+
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">afterTextChanged(Editable s) {</span>
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+       
+
+
+        <span class="s1">BackBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s1">onBackPressed()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">cartBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s2">//show cart dialog</span>
+                <span class="s1">showCartDialog()</span><span class="s0">;</span>
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">callBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s1">dialPhone()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">mapBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s1">openMap()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">filterProductBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+
+                <span class="s1">AlertDialog.Builder builder = </span><span class="s0">new </span><span class="s1">AlertDialog.Builder(ShopDetailsActivity.</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">builder.setTitle(</span><span class="s3">&quot;Choose Category:&quot;</span><span class="s1">)</span>
+                        <span class="s1">.setItems(Constants.productCategories1</span><span class="s0">,new </span><span class="s1">DialogInterface.OnClickListener() {</span>
+                            <span class="s1">@Override</span>
+                            <span class="s0">public void </span><span class="s1">onClick(DialogInterface dialog</span><span class="s0">,int </span><span class="s1">which) {</span>
+                                <span class="s2">//get selected item</span>
+                                <span class="s1">String selected = Constants.productCategories1[which]</span><span class="s0">;</span>
+                                <span class="s1">filterProductTv.setText(selected)</span><span class="s0">;</span>
+                                <span class="s0">if</span><span class="s1">(selected.equals(</span><span class="s3">&quot;All&quot;</span><span class="s1">)){</span>
+                                    <span class="s2">//load all</span>
+                                    <span class="s1">loadShopProducts()</span><span class="s0">;</span>
+                                <span class="s1">}</span>
+                                <span class="s0">else</span><span class="s1">{</span>
+                                    <span class="s2">//load filtered</span>
+                                    <span class="s1">adapterProductBuyer.getFilter().filter(selected)</span><span class="s0">;</span>
+                                <span class="s1">}</span>
+                            <span class="s1">}</span>
+                        <span class="s1">})</span>
+                        <span class="s1">.show()</span><span class="s0">;</span>
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+
+
+    <span class="s1">}</span>
+
+
+
+    <span class="s0">private void </span><span class="s1">deleteCartData() {</span>
+
+        <span class="s1">EasyDB easyDB= EasyDB.init(</span><span class="s0">this,</span><span class="s3">&quot;ITEMS_DB&quot;</span><span class="s1">)</span>
+                <span class="s1">.setTableName(</span><span class="s3">&quot;ITEMS_TABLE&quot;</span><span class="s1">)</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Id&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;unique&quot;</span><span class="s1">}))</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_PID&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Name&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Price_Each&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Price&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Quantity&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                <span class="s1">.doneTableColumn()</span><span class="s0">;</span>
+
+        <span class="s1">easyDB.deleteAllDataFromTable()</span><span class="s0">; </span><span class="s2">//delete</span>
+
+    <span class="s1">}</span>
+
+    <span class="s0">public  double </span><span class="s1">allTotalPrice = </span><span class="s4">0.0</span><span class="s0">;</span>
+
+    <span class="s2">//need to access these views in adapter so making public</span>
+    <span class="s0">public </span><span class="s1">TextView sTotalTv</span><span class="s0">,</span><span class="s1">dFeeTv</span><span class="s0">,</span><span class="s1">allTotalPriceTv</span><span class="s0">;</span>
+    <span class="s0">private void </span><span class="s1">showCartDialog() {</span>
+
+        <span class="s2">//init list</span>
+        <span class="s1">cartItemList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+
+        <span class="s2">//inflate cart layout</span>
+        <span class="s1">View view = LayoutInflater.from(</span><span class="s0">this</span><span class="s1">).inflate(R.layout.dialog_cart</span><span class="s0">,null</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s2">//init views</span>
+
+        <span class="s1">TextView shopNameTv = view.findViewById(R.id.shopNameTv)</span><span class="s0">;</span>
+        <span class="s1">RecyclerView cartItemsRv = view.findViewById(R.id.cartItemsRv)</span><span class="s0">;</span>
+        <span class="s1">TextView sTotalLabelTv = view.findViewById(R.id.sTotalLabelTv)</span><span class="s0">;</span>
+        <span class="s1">sTotalTv = view.findViewById(R.id.sTotalTv)</span><span class="s0">;</span>
+        <span class="s1">dFeeTv = view.findViewById(R.id.dFeeTv)</span><span class="s0">;</span>
+        <span class="s1">allTotalPriceTv = view.findViewById(R.id.totalTv)</span><span class="s0">;</span>
+        <span class="s1">Button checkoutBtn = view.findViewById(R.id.checkoutBtn)</span><span class="s0">;</span>
+
+        <span class="s2">//dialog</span>
+        <span class="s1">AlertDialog.Builder builder = </span><span class="s0">new </span><span class="s1">AlertDialog.Builder(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s2">//set view to dialog</span>
+        <span class="s1">builder.setView(view)</span><span class="s0">;</span>
+
+        <span class="s1">shopNameTv.setText(shopName)</span><span class="s0">;</span>
+
+        <span class="s1">EasyDB easyDB= EasyDB.init(</span><span class="s0">this,</span><span class="s3">&quot;ITEMS_DB&quot;</span><span class="s1">)</span>
+                <span class="s1">.setTableName(</span><span class="s3">&quot;ITEMS_TABLE&quot;</span><span class="s1">)</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Id&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;unique&quot;</span><span class="s1">}))</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_PID&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Name&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Price_Each&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Price&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Quantity&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                <span class="s1">.doneTableColumn()</span><span class="s0">;</span>
+
+        <span class="s2">//get all records from db</span>
+        <span class="s1">Cursor res = easyDB.getAllData()</span><span class="s0">;</span>
+        <span class="s0">while </span><span class="s1">(res.moveToNext()){</span>
+            <span class="s1">String id = res.getString(</span><span class="s4">1</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">String pId= res.getString(</span><span class="s4">2</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">String name= res.getString(</span><span class="s4">3</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">String price= res.getString(</span><span class="s4">4</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">String cost= res.getString(</span><span class="s4">5</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">String quantity= res.getString(</span><span class="s4">6</span><span class="s1">)</span><span class="s0">;</span>
+
+            <span class="s1">allTotalPrice = allTotalPrice + Double.parseDouble(cost)</span><span class="s0">;</span>
+            <span class="s1">ModelCartItem modelCartItem = </span><span class="s0">new </span><span class="s1">ModelCartItem(</span><span class="s3">&quot;&quot;</span><span class="s1">+id</span><span class="s0">,</span>
+                    <span class="s3">&quot;&quot;</span><span class="s1">+pId</span><span class="s0">,</span>
+                    <span class="s3">&quot;&quot;</span><span class="s1">+name</span><span class="s0">,</span>
+                    <span class="s3">&quot;&quot;</span><span class="s1">+price</span><span class="s0">,</span>
+                    <span class="s3">&quot;&quot;</span><span class="s1">+cost</span><span class="s0">,</span>
+                    <span class="s3">&quot;&quot;</span><span class="s1">+quantity)</span><span class="s0">;</span>
+
+            <span class="s1">cartItemList.add(modelCartItem)</span><span class="s0">;</span>
+
+        <span class="s1">}</span>
+
+        <span class="s2">//setup adapter</span>
+        <span class="s1">adapterCartItem = </span><span class="s0">new </span><span class="s1">AdapterCartItem(</span><span class="s0">this,</span><span class="s1">cartItemList)</span><span class="s0">;</span>
+        <span class="s2">//set to recycler view</span>
+        <span class="s1">cartItemsRv.setAdapter(adapterCartItem)</span><span class="s0">;</span>
+        <span class="s1">dFeeTv.setText(</span><span class="s3">&quot;₹&quot;</span><span class="s1">+deliveryFee)</span><span class="s0">;</span>
+        <span class="s1">sTotalTv.setText(</span><span class="s3">&quot;₹&quot;</span><span class="s1">+String.format(</span><span class="s3">&quot;%2f&quot;</span><span class="s0">,</span><span class="s1">allTotalPrice))</span><span class="s0">;</span>
+        <span class="s1">allTotalPriceTv.setText(</span><span class="s3">&quot;₹&quot;</span><span class="s1">+(allTotalPrice+Double.parseDouble(deliveryFee.replace(</span><span class="s3">&quot;₹&quot;</span><span class="s0">,</span><span class="s3">&quot;&quot;</span><span class="s1">))))</span><span class="s0">;</span>
+
+        <span class="s2">//show dialog</span>
+        <span class="s1">AlertDialog dialog = builder.create()</span><span class="s0">;</span>
+        <span class="s1">dialog.show()</span><span class="s0">;</span>
+
+        <span class="s2">//reset total price on dialog dismiss</span>
+        <span class="s1">dialog.setOnCancelListener(</span><span class="s0">new </span><span class="s1">DialogInterface.OnCancelListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onCancel(DialogInterface dialog) {</span>
+                <span class="s1">allTotalPrice = </span><span class="s4">0.00</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">openMap() {</span>
+
+        <span class="s2">//saddr means source address</span>
+        <span class="s2">//daddr means destination address</span>
+
+        <span class="s1">String address = </span><span class="s3">&quot;https://maps.google.com/maps?saddr=&quot; </span><span class="s1">+ myLatitude + </span><span class="s3">&quot;,&quot; </span><span class="s1">+ myLongitude + </span><span class="s3">&quot;&amp;daddr=&quot; </span><span class="s1">+ shopLatitude + </span><span class="s3">&quot;,&quot; </span><span class="s1">+ shopLongitude</span><span class="s0">;</span>
+        <span class="s1">Intent intent = </span><span class="s0">new </span><span class="s1">Intent(Intent.ACTION_VIEW</span><span class="s0">,</span><span class="s1">Uri.parse(address))</span><span class="s0">;</span>
+        <span class="s1">startActivity(intent)</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">dialPhone() {</span>
+        <span class="s1">startActivity(</span><span class="s0">new </span><span class="s1">Intent(Intent.ACTION_DIAL</span><span class="s0">,</span><span class="s1">Uri.parse(</span><span class="s3">&quot;tel:&quot;</span><span class="s1">+Uri.encode(shopPhone))))</span><span class="s0">;</span>
+        <span class="s1">Toast.makeText(</span><span class="s0">this,</span><span class="s3">&quot;&quot;</span><span class="s1">+shopPhone</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+
+
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">loadShopProducts() {</span>
+        <span class="s2">//init list</span>
+        <span class="s1">productsList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s1">DatabaseReference reference=FirebaseDatabase.getInstance().getReference(</span><span class="s3">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">reference.child(shopUid).child(</span><span class="s3">&quot;Products&quot;</span><span class="s1">)</span>
+                <span class="s1">.addValueEventListener(</span><span class="s0">new </span><span class="s1">ValueEventListener() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onDataChange(@NonNull DataSnapshot snapshot) {</span>
+                        <span class="s2">//clear list before adding items</span>
+                        <span class="s0">for</span><span class="s1">(DataSnapshot ds: snapshot.getChildren()){</span>
+                            <span class="s1">ModelProduct modelProduct = ds.getValue(ModelProduct.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span>
+                            <span class="s1">productsList.add(modelProduct)</span><span class="s0">;</span>
+
+                            <span class="s2">//setup adapter</span>
+                            <span class="s1">adapterProductBuyer = </span><span class="s0">new </span><span class="s1">AdapterProductBuyer(ShopDetailsActivity.</span><span class="s0">this,</span><span class="s1">productsList)</span><span class="s0">;</span>
+                            <span class="s2">//set adapter</span>
+                            <span class="s1">productsRv.setAdapter(adapterProductBuyer)</span><span class="s0">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">}</span>
+
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onCancelled(@NonNull DatabaseError error) {</span>
+
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">loadShopDetails() {</span>
+
+        <span class="s1">DatabaseReference reference = FirebaseDatabase.getInstance().getReference(</span><span class="s3">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">reference.child(shopUid).addValueEventListener(</span><span class="s0">new </span><span class="s1">ValueEventListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onDataChange(@NonNull DataSnapshot snapshot) {</span>
+                <span class="s1">String name=</span><span class="s3">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s3">&quot;name&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                <span class="s1">shopName=</span><span class="s3">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s3">&quot;shopName&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                <span class="s1">shopEmail=</span><span class="s3">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s3">&quot;email&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                <span class="s1">shopPhone=</span><span class="s3">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s3">&quot;phone&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                <span class="s1">shopLatitude=</span><span class="s3">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s3">&quot;latitude&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                <span class="s1">shopAddress=</span><span class="s3">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s3">&quot;address&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                <span class="s1">shopLongitude=</span><span class="s3">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s3">&quot;longitude&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                <span class="s1">deliveryFee =</span><span class="s3">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s3">&quot;deliveryFee&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                <span class="s1">String profileImage =</span><span class="s3">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s3">&quot;profileImage&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                <span class="s1">String shopOpen =</span><span class="s3">&quot;&quot;</span><span class="s1">+snapshot.child(</span><span class="s3">&quot;shopOpen&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+
+
+
+                <span class="s2">//set shop data</span>
+                <span class="s1">shopNameTv.setText(shopName)</span><span class="s0">;</span>
+                <span class="s1">emailTv.setText(shopEmail)</span><span class="s0">;</span>
+                <span class="s1">deliveryFeeTv.setText(</span><span class="s3">&quot;Delivery Fee: ₹&quot;</span><span class="s1">+deliveryFee)</span><span class="s0">;</span>
+                <span class="s1">addressTv.setText(shopAddress)</span><span class="s0">;</span>
+                <span class="s1">phoneTv.setText(shopPhone)</span><span class="s0">;</span>
+
+                <span class="s0">if</span><span class="s1">(shopOpen.equals(</span><span class="s3">&quot;true&quot;</span><span class="s1">)){</span>
+
+                    <span class="s1">openCloseTv.setText(</span><span class="s3">&quot;Open&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">else</span><span class="s1">{</span>
+
+                    <span class="s1">openCloseTv.setText(</span><span class="s3">&quot;Closed&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+
+                <span class="s0">try</span><span class="s1">{</span>
+                    <span class="s1">Picasso.get().load(profileImage).into(shopIv)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+
+                <span class="s0">catch </span><span class="s1">(Exception e){</span>
+
+                <span class="s1">}</span>
+
+
+
+
+            <span class="s1">}</span>
+
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onCancelled(@NonNull DatabaseError error) {</span>
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+    <span class="s0">private void </span><span class="s1">loadMyInfo() {</span>
+
+        <span class="s1">DatabaseReference ref = FirebaseDatabase.getInstance( ).getReference(</span><span class="s3">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">ref.orderByChild(</span><span class="s3">&quot;uid&quot;</span><span class="s1">).equalTo(firebaseAuth.getUid( ))</span>
+                <span class="s1">.addValueEventListener(</span><span class="s0">new </span><span class="s1">ValueEventListener( ) {</span>
+                    <span class="s1">@SuppressLint(</span><span class="s3">&quot;SetTextI18n&quot;</span><span class="s1">)</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onDataChange(@NonNull DataSnapshot snapshot) {</span>
+
+                        <span class="s0">for </span><span class="s1">(DataSnapshot ds : snapshot.getChildren()) {</span>
+                            <span class="s1">myLatitude = </span><span class="s3">&quot;&quot; </span><span class="s1">+ ds.child(</span><span class="s3">&quot;latitude&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                            <span class="s1">myLongitude = </span><span class="s3">&quot;&quot; </span><span class="s1">+ ds.child(</span><span class="s3">&quot;longitude&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+
+                        <span class="s1">}</span>
+                    <span class="s1">}</span>
+
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onCancelled(@NonNull DatabaseError error) {</span>
+
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+
+                <span class="s1">}</span>
+
+
+
+    <span class="s1">}</span>
+</pre>
+</body>
+</html>

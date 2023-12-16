@@ -1,0 +1,192 @@
+<html>
+<head>
+<title>Login.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Login.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.vocal.triunity.activities</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.app.ProgressDialog</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.text.TextUtils</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.util.Patterns</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnFailureListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnSuccessListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.AuthResult</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseAuth</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DataSnapshot</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseError</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseReference</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.FirebaseDatabase</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.ValueEventListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.R</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.util.HashMap</span><span class="s0">;</span>
+
+
+<span class="s0">public class </span><span class="s1">Login </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+
+    <span class="s1">EditText login_email </span><span class="s0">, </span><span class="s1">l_password</span><span class="s0">;</span>
+    <span class="s1">Button login_button</span><span class="s0">;</span>
+    <span class="s1">Button buyer_register</span><span class="s0">,</span><span class="s1">reset</span><span class="s0">;</span>
+
+    <span class="s1">FirebaseAuth firebaseAuth</span><span class="s0">;</span>
+    <span class="s1">ProgressDialog progressDialog</span><span class="s0">;</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s1">setContentView(R.layout.activity_login)</span><span class="s0">;</span>
+        <span class="s1">login_email=findViewById(R.id.login_email)</span><span class="s0">;</span>
+        <span class="s1">l_password=findViewById(R.id.l_password)</span><span class="s0">;</span>
+        <span class="s1">login_button=findViewById(R.id.login_btn)</span><span class="s0">;</span>
+        <span class="s1">buyer_register=findViewById(R.id.buyer_register)</span><span class="s0">;</span>
+        <span class="s1">reset=findViewById(R.id.reset)</span><span class="s0">;</span>
+
+        <span class="s1">firebaseAuth =FirebaseAuth.getInstance()</span><span class="s0">;</span>
+        <span class="s1">progressDialog = </span><span class="s0">new </span><span class="s1">ProgressDialog(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">progressDialog.setTitle(</span><span class="s2">&quot;Please Wait&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">progressDialog.setCanceledOnTouchOutside(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s1">buyer_register.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s1">startActivity(</span><span class="s0">new </span><span class="s1">Intent(Login.</span><span class="s0">this,</span><span class="s1">Buyer.</span><span class="s0">class</span><span class="s1">))</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">reset.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s1">startActivity(</span><span class="s0">new </span><span class="s1">Intent(Login.</span><span class="s0">this,</span><span class="s1">ForgetPasswordActivity.</span><span class="s0">class</span><span class="s1">))</span><span class="s0">;</span>
+                <span class="s1">finish()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">login_button.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s1">loginUser()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+   <span class="s0">private </span><span class="s1">String email</span><span class="s0">,</span><span class="s1">password</span><span class="s0">;</span>
+    <span class="s0">private void </span><span class="s1">loginUser() {</span>
+
+        <span class="s1">email = login_email.getText().toString().trim()</span><span class="s0">;</span>
+        <span class="s1">password = l_password.getText().toString().trim()</span><span class="s0">;</span>
+
+        <span class="s0">if</span><span class="s1">(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){</span>
+            <span class="s1">Toast.makeText(</span><span class="s0">this, </span><span class="s2">&quot;Invalid Email Pattern!&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+            <span class="s0">return;</span>
+        <span class="s1">}</span>
+
+        <span class="s0">if</span><span class="s1">(TextUtils.isEmpty(password)){</span>
+            <span class="s1">Toast.makeText(</span><span class="s0">this, </span><span class="s2">&quot;Enter password....&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+            <span class="s0">return;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">progressDialog.setMessage(</span><span class="s2">&quot;Logging In...&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">progressDialog.show()</span><span class="s0">;</span>
+
+        <span class="s1">firebaseAuth.signInWithEmailAndPassword(email</span><span class="s0">,</span><span class="s1">password)</span>
+                <span class="s1">.addOnSuccessListener(</span><span class="s0">new </span><span class="s1">OnSuccessListener&lt;AuthResult&gt;() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onSuccess(AuthResult authResult) {</span>
+                        <span class="s3">//logged in successfully</span>
+                        <span class="s1">makeMeOnline()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">})</span>
+
+                <span class="s1">.addOnFailureListener(</span><span class="s0">new </span><span class="s1">OnFailureListener() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onFailure(@NonNull Exception e) {</span>
+                    <span class="s1">progressDialog.dismiss()</span><span class="s0">;</span>
+                        <span class="s1">Toast.makeText(Login.</span><span class="s0">this, </span><span class="s2">&quot;&quot;</span><span class="s1">+e.getMessage()</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+
+
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">makeMeOnline() {</span>
+
+        <span class="s1">progressDialog.setMessage(</span><span class="s2">&quot;Welcome to Triunity!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">HashMap&lt;String</span><span class="s0">, </span><span class="s1">Object&gt; hashMap = </span><span class="s0">new </span><span class="s1">HashMap&lt;&gt;()</span><span class="s0">;</span>
+        <span class="s1">hashMap.put(</span><span class="s2">&quot;online&quot;</span><span class="s0">,</span><span class="s2">&quot;true&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s3">//update value to db</span>
+        <span class="s1">DatabaseReference ref = FirebaseDatabase.getInstance().getReference(</span><span class="s2">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">ref.child(firebaseAuth.getUid()).updateChildren(hashMap)</span>
+                <span class="s1">.addOnSuccessListener(</span><span class="s0">new </span><span class="s1">OnSuccessListener&lt;Void&gt;() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onSuccess(Void aVoid) {</span>
+                      <span class="s3">//update successfully</span>
+                        <span class="s1">checkUserType()</span><span class="s0">;</span>
+
+                    <span class="s1">}</span>
+                <span class="s1">})</span>
+                <span class="s1">.addOnFailureListener(</span><span class="s0">new </span><span class="s1">OnFailureListener() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onFailure(@NonNull Exception e) {</span>
+                        <span class="s1">progressDialog.dismiss()</span><span class="s0">;</span>
+                        <span class="s1">Toast.makeText(Login.</span><span class="s0">this, </span><span class="s2">&quot;&quot;</span><span class="s1">+e.getMessage()</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">checkUserType() {</span>
+        <span class="s3">//if user is seller, start seller main screen</span>
+        <span class="s3">//if user is buyer, start buyer main screen</span>
+
+        <span class="s1">DatabaseReference ref=FirebaseDatabase.getInstance().getReference(</span><span class="s2">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">ref.orderByChild(</span><span class="s2">&quot;uid&quot;</span><span class="s1">).equalTo(firebaseAuth.getUid())</span>
+                <span class="s1">.addListenerForSingleValueEvent(</span><span class="s0">new </span><span class="s1">ValueEventListener() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onDataChange(@NonNull DataSnapshot snapshot) {</span>
+                        <span class="s0">for </span><span class="s1">(DataSnapshot ds: snapshot.getChildren()) {</span>
+                            <span class="s1">String accountType = </span><span class="s2">&quot;&quot; </span><span class="s1">+ ds.child(</span><span class="s2">&quot;accountType&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                            <span class="s0">if </span><span class="s1">(accountType.equals(</span><span class="s2">&quot;Seller&quot;</span><span class="s1">)) {</span>
+                                <span class="s1">progressDialog.dismiss()</span><span class="s0">;</span>
+                                <span class="s3">// user is seller</span>
+                                <span class="s1">startActivity(</span><span class="s0">new </span><span class="s1">Intent(Login.</span><span class="s0">this,</span><span class="s1">MainSellerActivity.</span><span class="s0">class</span><span class="s1">))</span><span class="s0">;</span>
+                                <span class="s1">finish()</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+                            <span class="s0">else</span><span class="s1">{</span>
+                                <span class="s1">progressDialog.dismiss()</span><span class="s0">;</span>
+                                <span class="s3">//users is buyer</span>
+                                <span class="s1">startActivity(</span><span class="s0">new </span><span class="s1">Intent(Login.</span><span class="s0">this,</span><span class="s1">MainBuyerActivity.</span><span class="s0">class</span><span class="s1">))</span><span class="s0">;</span>
+                                <span class="s1">finish()</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+                        <span class="s1">}</span>
+                    <span class="s1">}</span>
+
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onCancelled(@NonNull DatabaseError error) {</span>
+
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+<span class="s1">}</span></pre>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<html>
+<head>
+<title>style.xml</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #e8bf6a;}
+.s1 { color: #bababa;}
+.s2 { color: #6a8759;}
+.s3 { color: #a9b7c6;}
+.s4 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+style.xml</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;?</span><span class="s1">xml version</span><span class="s2">=&quot;1.0&quot; </span><span class="s1">encoding</span><span class="s2">=&quot;utf-8&quot;</span><span class="s0">?&gt;</span>
+<span class="s0">&lt;resources&gt;</span>
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;Theme.Triunity&quot; </span><span class="s1">parent</span><span class="s2">=&quot;Theme.AppCompat.Light.NoActionBar&quot;</span><span class="s0">&gt;</span>
+        <span class="s4">&lt;!-- Primary brand color. --&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;colorPrimary&quot;</span><span class="s0">&gt;</span><span class="s3">@color/colorOrange</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;colorPrimaryDark&quot;</span><span class="s0">&gt;</span><span class="s3">@color/colorOrange</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;colorAccent&quot;</span><span class="s0">&gt;</span><span class="s3">@color/Black</span><span class="s0">&lt;/item&gt;</span>
+    <span class="s0">&lt;/style&gt;</span>
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;SplashTheme&quot; </span><span class="s1">parent</span><span class="s2">=&quot;Theme.AppCompat.Light.NoActionBar&quot;</span><span class="s0">&gt;</span>
+        <span class="s4">&lt;!-- Primary brand color. --&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;colorPrimary&quot;</span><span class="s0">&gt;</span><span class="s3">@color/colorPrimary</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;colorPrimaryDark&quot;</span><span class="s0">&gt;</span><span class="s3">@color/colorOrange</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;colorAccent&quot;</span><span class="s0">&gt;</span><span class="s3">@color/colorOrange</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:windowBackground&quot;</span><span class="s0">&gt;</span><span class="s3">@drawable/splash_activity_background</span><span class="s0">&lt;/item&gt;</span>
+    <span class="s0">&lt;/style&gt;</span>
+
+
+
+
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;AppTheme.NoActionBar&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;windowActionBar&quot;</span><span class="s0">&gt;</span><span class="s3">false</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;windowNoTitle&quot;</span><span class="s0">&gt;</span><span class="s3">true</span><span class="s0">&lt;/item&gt;</span>
+    <span class="s0">&lt;/style&gt;</span>
+
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;AppTheme.AppBarOverlay&quot; </span><span class="s1">parent</span><span class="s2">=&quot;ThemeOverlay.AppCompat.Dark.ActionBar&quot; </span><span class="s0">/&gt;</span>
+
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;AppTheme.PopupOverlay&quot; </span><span class="s1">parent</span><span class="s2">=&quot;ThemeOverlay.AppCompat.Light&quot; </span><span class="s0">/&gt;</span>
+
+    <span class="s4">&lt;!--styles for profile--&gt;</span>
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;AppTheme.ProfileTheme&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;colorPrimaryDark&quot;</span><span class="s0">&gt;</span><span class="s3">@color/profilePrimaryDark</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;colorAccent&quot;</span><span class="s0">&gt;</span><span class="s3">@color/profileAccentColor</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;windowActionBar&quot;</span><span class="s0">&gt;</span><span class="s3">false</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;windowNoTitle&quot;</span><span class="s0">&gt;</span><span class="s3">true</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:textColor&quot;</span><span class="s0">&gt;</span><span class="s3">@color/whiteTextColor</span><span class="s0">&lt;/item&gt;</span>
+    <span class="s0">&lt;/style&gt;</span>
+
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;TransparentText&quot; </span><span class="s1">parent</span><span class="s2">=&quot;@android:style/TextAppearance&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:textColor&quot;</span><span class="s0">&gt;</span><span class="s3">#00000000</span><span class="s0">&lt;/item&gt;</span>
+    <span class="s0">&lt;/style&gt;</span>
+
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;parent&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_width&quot;</span><span class="s0">&gt;</span><span class="s3">match_parent</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_height&quot;</span><span class="s0">&gt;</span><span class="s3">wrap_content</span><span class="s0">&lt;/item&gt;</span>
+    <span class="s0">&lt;/style&gt;</span>
+
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;headerText&quot; </span><span class="s1">parent</span><span class="s2">=&quot;parent&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:textSize&quot;</span><span class="s0">&gt;</span><span class="s3">@dimen/headerTextSize</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:textColor&quot;</span><span class="s0">&gt;</span><span class="s3">@color/blackTextColor</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:textStyle&quot;</span><span class="s0">&gt;</span><span class="s3">bold</span><span class="s0">&lt;/item&gt;</span>
+    <span class="s0">&lt;/style&gt;</span>
+
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;textInputHintStyle&quot; </span><span class="s1">parent</span><span class="s2">=&quot;TextAppearance.AppCompat.Medium.Inverse&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:textColorHint&quot;</span><span class="s0">&gt;</span><span class="s3">@color/blackTextColor</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:textColor&quot;</span><span class="s0">&gt;</span><span class="s3">@color/blackTextColor</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:textSize&quot;</span><span class="s0">&gt;</span><span class="s3">17sp</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:textStyle&quot;</span><span class="s0">&gt;</span><span class="s3">bold</span><span class="s0">&lt;/item&gt;</span>
+    <span class="s0">&lt;/style&gt;</span>
+
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;viewParent&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_width&quot;</span><span class="s0">&gt;</span><span class="s3">wrap_content</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_height&quot;</span><span class="s0">&gt;</span><span class="s3">wrap_content</span><span class="s0">&lt;/item&gt;</span>
+    <span class="s0">&lt;/style&gt;</span>
+
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;profileDetailsLayout&quot; </span><span class="s1">parent</span><span class="s2">=&quot;parent&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_marginTop&quot;</span><span class="s0">&gt;</span><span class="s3">20dp</span><span class="s0">&lt;/item&gt;</span>
+    <span class="s0">&lt;/style&gt;</span>
+
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;profileDetailsImage&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_width&quot;</span><span class="s0">&gt;</span><span class="s3">40dp</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_height&quot;</span><span class="s0">&gt;</span><span class="s3">40dp</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_alignParentTop&quot;</span><span class="s0">&gt;</span><span class="s3">true</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_alignParentLeft&quot;</span><span class="s0">&gt;</span><span class="s3">true</span><span class="s0">&lt;/item&gt;</span>
+    <span class="s0">&lt;/style&gt;</span>
+
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;profileDetailsTextMain&quot; </span><span class="s1">parent</span><span class="s2">=&quot;viewParent&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:textColor&quot;</span><span class="s0">&gt;</span><span class="s3">@color/blackTextColor</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:textStyle&quot;</span><span class="s0">&gt;</span><span class="s3">bold</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:textSize&quot;</span><span class="s0">&gt;</span><span class="s3">16sp</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_marginLeft&quot;</span><span class="s0">&gt;</span><span class="s3">10dp</span><span class="s0">&lt;/item&gt;</span>
+    <span class="s0">&lt;/style&gt;</span>
+
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;profileDetailsMiniText&quot; </span><span class="s1">parent</span><span class="s2">=&quot;viewParent&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_alignParentBottom&quot;</span><span class="s0">&gt;</span><span class="s3">true</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:textColor&quot;</span><span class="s0">&gt;</span><span class="s3">@color/blackTextColor</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:textSize&quot;</span><span class="s0">&gt;</span><span class="s3">14sp</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_marginLeft&quot;</span><span class="s0">&gt;</span><span class="s3">10dp</span><span class="s0">&lt;/item&gt;</span>
+    <span class="s0">&lt;/style&gt;</span>
+
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;profileDetailsView&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_width&quot;</span><span class="s0">&gt;</span><span class="s3">match_parent</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_height&quot;</span><span class="s0">&gt;</span><span class="s3">2dp</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:background&quot;</span><span class="s0">&gt;</span><span class="s3">@color/profileAccentColor</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_marginTop&quot;</span><span class="s0">&gt;</span><span class="s3">5dp</span><span class="s0">&lt;/item&gt;</span>
+    <span class="s0">&lt;/style&gt;</span>
+
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;profileStyledBackButton&quot;</span><span class="s0">&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_width&quot;</span><span class="s0">&gt;</span><span class="s3">wrap_content</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_height&quot;</span><span class="s0">&gt;</span><span class="s3">wrap_content</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:background&quot;</span><span class="s0">&gt;</span><span class="s3">@drawable/profile_back_button</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:textAlignment&quot;</span><span class="s0">&gt;</span><span class="s3">center</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:paddingLeft&quot;</span><span class="s0">&gt;</span><span class="s3">30dp</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:paddingRight&quot;</span><span class="s0">&gt;</span><span class="s3">50dp</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:paddingTop&quot;</span><span class="s0">&gt;</span><span class="s3">10dp</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:paddingBottom&quot;</span><span class="s0">&gt;</span><span class="s3">10dp</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:drawableLeft&quot;</span><span class="s0">&gt;</span><span class="s3">@drawable/back_to_home_button</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:textStyle&quot;</span><span class="s0">&gt;</span><span class="s3">bold</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_centerHorizontal&quot;</span><span class="s0">&gt;</span><span class="s3">true</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:layout_alignParentTop&quot;</span><span class="s0">&gt;</span><span class="s3">true</span><span class="s0">&lt;/item&gt;</span>
+        <span class="s0">&lt;item </span><span class="s1">name</span><span class="s2">=&quot;android:minWidth&quot;</span><span class="s0">&gt;</span><span class="s3">250dp</span><span class="s0">&lt;/item&gt;</span>
+    <span class="s0">&lt;/style&gt;</span>
+
+    <span class="s0">&lt;style </span><span class="s1">name</span><span class="s2">=&quot;AppTheme&quot;</span><span class="s0">&gt;</span><span class="s3">AppTheme</span><span class="s0">&lt;/style&gt;</span>
+
+
+<span class="s0">&lt;/resources&gt;</span></pre>
+</body>
+</html>

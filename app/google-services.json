@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "44124641059",
+    "project_id": "triunity-22cc8",
+    "storage_bucket": "triunity-22cc8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:44124641059:android:2e0c4f3471ab3db7b71e96",
+        "android_client_info": {
+          "package_name": "com.vocal.triunity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "44124641059-fhh5b63ufm5v43a1kvej5sitclplvuci.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vocal.triunity",
+            "certificate_hash": "b2c13a28513fe6babb6b077b0fd0491fbdb61c12"
+          }
+        },
+        {
+          "client_id": "44124641059-bn8n44rqcmmu5gimfrnv6gj2lnbhcv9e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAeAnfXPmxEXG4NAjIAMNHq-00ZO9Ppa4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "44124641059-bn8n44rqcmmu5gimfrnv6gj2lnbhcv9e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

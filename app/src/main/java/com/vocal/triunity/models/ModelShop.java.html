@@ -1,0 +1,176 @@
+<html>
+<head>
+<title>ModelShop.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+ModelShop.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.vocal.triunity.models</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseAuth</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DataSnapshot</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseError</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseReference</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.FirebaseDatabase</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.ValueEventListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.squareup.picasso.Picasso</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.R</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">ModelShop {</span>
+    <span class="s0">private </span><span class="s1">String uid</span><span class="s0">,</span><span class="s1">email</span><span class="s0">,</span><span class="s1">phone</span><span class="s0">,</span><span class="s1">name</span><span class="s0">,</span><span class="s1">profileImage</span><span class="s0">,</span><span class="s1">shopName</span><span class="s0">,</span><span class="s1">deliveryFee</span><span class="s0">,</span><span class="s1">latitude</span><span class="s0">,</span><span class="s1">longitude</span><span class="s0">,</span><span class="s1">city</span><span class="s0">,</span><span class="s1">address</span><span class="s0">,</span><span class="s1">timestamp</span><span class="s0">,</span><span class="s1">accountType</span><span class="s0">,</span><span class="s1">online</span><span class="s0">,</span><span class="s1">shopOpen</span><span class="s0">;</span>
+
+    <span class="s0">public </span><span class="s1">ModelShop() {</span>
+    <span class="s1">}</span>
+
+
+    <span class="s0">public </span><span class="s1">ModelShop(String uid</span><span class="s0">,</span><span class="s1">String email</span><span class="s0">,</span><span class="s1">String phone</span><span class="s0">,</span><span class="s1">String name</span><span class="s0">,</span><span class="s1">String profileImage</span><span class="s0">,</span><span class="s1">String shopName</span><span class="s0">,</span><span class="s1">String deliveryFee</span><span class="s0">,</span><span class="s1">String latitude</span><span class="s0">,</span><span class="s1">String longitude</span><span class="s0">,</span><span class="s1">String city</span><span class="s0">,</span><span class="s1">String address</span><span class="s0">,</span><span class="s1">String timestamp</span><span class="s0">,</span><span class="s1">String accountType</span><span class="s0">,</span><span class="s1">String online</span><span class="s0">,</span><span class="s1">String shopOpen) {</span>
+        <span class="s0">this</span><span class="s1">.uid = uid</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.email = email</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.phone = phone</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.name = name</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.profileImage = profileImage</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.shopName = shopName</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.deliveryFee = deliveryFee</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.latitude = latitude</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.longitude = longitude</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.city = city</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.address = address</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.timestamp = timestamp</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.accountType = accountType</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.online = online</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.shopOpen = shopOpen</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getUid() {</span>
+        <span class="s0">return </span><span class="s1">uid</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setUid(String uid) {</span>
+        <span class="s0">this</span><span class="s1">.uid = uid</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getEmail() {</span>
+        <span class="s0">return </span><span class="s1">email</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setEmail(String email) {</span>
+        <span class="s0">this</span><span class="s1">.email = email</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getPhone() {</span>
+        <span class="s0">return </span><span class="s1">phone</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setPhone(String phone) {</span>
+        <span class="s0">this</span><span class="s1">.phone = phone</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getName() {</span>
+        <span class="s0">return </span><span class="s1">name</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setName(String name) {</span>
+        <span class="s0">this</span><span class="s1">.name = name</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getProfileImage() {</span>
+        <span class="s0">return </span><span class="s1">profileImage</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setProfileImage(String profileImage) {</span>
+        <span class="s0">this</span><span class="s1">.profileImage = profileImage</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getShopName() {</span>
+        <span class="s0">return </span><span class="s1">shopName</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setShopName(String shopName) {</span>
+        <span class="s0">this</span><span class="s1">.shopName = shopName</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getDeliveryFee() {</span>
+        <span class="s0">return </span><span class="s1">deliveryFee</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setDeliveryFee(String deliveryFee) {</span>
+        <span class="s0">this</span><span class="s1">.deliveryFee = deliveryFee</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getLatitude() {</span>
+        <span class="s0">return </span><span class="s1">latitude</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setLatitude(String latitude) {</span>
+        <span class="s0">this</span><span class="s1">.latitude = latitude</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getLongitude() {</span>
+        <span class="s0">return </span><span class="s1">longitude</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setLongitude(String longitude) {</span>
+        <span class="s0">this</span><span class="s1">.longitude = longitude</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getCity() {</span>
+        <span class="s0">return </span><span class="s1">city</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setCity(String city) {</span>
+        <span class="s0">this</span><span class="s1">.city = city</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getAddress() {</span>
+        <span class="s0">return </span><span class="s1">address</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setAddress(String address) {</span>
+        <span class="s0">this</span><span class="s1">.address = address</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getTimestamp() {</span>
+        <span class="s0">return </span><span class="s1">timestamp</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setTimestamp(String timestamp) {</span>
+        <span class="s0">this</span><span class="s1">.timestamp = timestamp</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getAccountType() {</span>
+        <span class="s0">return </span><span class="s1">accountType</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setAccountType(String accountType) {</span>
+        <span class="s0">this</span><span class="s1">.accountType = accountType</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getOnline() {</span>
+        <span class="s0">return </span><span class="s1">online</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setOnline(String online) {</span>
+        <span class="s0">this</span><span class="s1">.online = online</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getShopOpen() {</span>
+        <span class="s0">return </span><span class="s1">shopOpen</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setShopOpen(String shopOpen) {</span>
+        <span class="s0">this</span><span class="s1">.shopOpen = shopOpen</span><span class="s0">;</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

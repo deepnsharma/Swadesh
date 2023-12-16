@@ -1,0 +1,720 @@
+<html>
+<head>
+<title>MainSellerActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6897bb;}
+.s4 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainSellerActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.vocal.triunity.activities</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.Manifest</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.annotation.SuppressLint</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.app.ProgressDialog</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.ContentValues</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.DialogInterface</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.pm.PackageManager</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.net.Uri</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.provider.MediaStore</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.text.Editable</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.text.TextWatcher</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.MenuItem</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.EditText</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ImageButton</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ImageView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.RelativeLayout</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.Nullable</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AlertDialog</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.widget.Toolbar</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.ActionBarDrawerToggle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.core.app.ActivityCompat</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.core.content.ContextCompat</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.core.view.GravityCompat</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.drawerlayout.widget.DrawerLayout</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.RecyclerView</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnFailureListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnSuccessListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.Task</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.material.navigation.NavigationView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseAuth</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseUser</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DataSnapshot</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseError</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseReference</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.FirebaseDatabase</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.ValueEventListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.storage.FirebaseStorage</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.storage.StorageReference</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.storage.UploadTask</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.squareup.picasso.Picasso</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.adapters.AdapterProductSeller</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.Constants</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.models.ModelProduct</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.R</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.HashMap</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">MainSellerActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+
+
+    <span class="s1">TextView seller_name</span><span class="s0">, </span><span class="s1">shopNameTv</span><span class="s0">, </span><span class="s1">emailTV</span><span class="s0">,</span><span class="s1">showProducts</span><span class="s0">,</span><span class="s1">showOrders</span><span class="s0">,</span><span class="s1">filterProductTv</span><span class="s0">;</span>
+    <span class="s1">EditText searchProductEt</span><span class="s0">;</span>
+    <span class="s1">ImageButton imageButton2</span><span class="s0">, </span><span class="s1">addProductBtn</span><span class="s0">,</span><span class="s1">filterProductBtn</span><span class="s0">;</span>
+    <span class="s1">ImageView profile</span><span class="s0">;</span>
+    <span class="s1">RelativeLayout productRl</span><span class="s0">,</span><span class="s1">orderRl</span><span class="s0">;</span>
+    <span class="s1">RecyclerView productsRv</span><span class="s0">;</span>
+
+
+    <span class="s1">ProgressDialog progressDialog</span><span class="s0">;</span>
+    <span class="s1">FirebaseAuth firebaseAuth</span><span class="s0">;</span>
+
+    <span class="s0">private </span><span class="s1">ArrayList&lt;ModelProduct&gt; productList</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">AdapterProductSeller adapterProductSeller</span><span class="s0">;</span>
+
+    <span class="s0">private </span><span class="s1">DrawerLayout drawerLayout</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">NavigationView navigationView</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">Toolbar toolbar</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">ActionBarDrawerToggle toggle</span><span class="s0">;</span>
+
+    <span class="s2">//permission constants</span>
+    <span class="s0">private static final int </span><span class="s1">CAMERA_REQUEST_CODE=</span><span class="s3">200</span><span class="s0">;</span>
+    <span class="s0">private static final int </span><span class="s1">STORAGE_REQUEST_CODE=</span><span class="s3">300</span><span class="s0">;</span>
+
+    <span class="s2">//image pick constants</span>
+    <span class="s0">private static final int </span><span class="s1">IMAGE_PICK_GALLERY_CODE=</span><span class="s3">400</span><span class="s0">;</span>
+    <span class="s0">private static final int </span><span class="s1">IMAGE_PICK_CAMERA_CODE=</span><span class="s3">500</span><span class="s0">;</span>
+
+    <span class="s2">//permission array</span>
+    <span class="s0">private </span><span class="s1">String[] cameraPermissions</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">String[] storagePermissions</span><span class="s0">;</span>
+
+    <span class="s2">//image picked url</span>
+    <span class="s0">private </span><span class="s1">Uri image_uri</span><span class="s0">;</span>
+
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s1">setContentView(R.layout.activity_main_seller)</span><span class="s0">;</span>
+
+        <span class="s1">toolbar = findViewById(R.id.toolbar)</span><span class="s0">;</span>
+        <span class="s1">drawerLayout = findViewById(R.id.drawer)</span><span class="s0">;</span>
+        <span class="s1">navigationView = findViewById(R.id.navigationView)</span><span class="s0">;</span>
+
+        <span class="s1">setSupportActionBar(toolbar)</span><span class="s0">;</span>
+        <span class="s1">toggle = </span><span class="s0">new </span><span class="s1">ActionBarDrawerToggle(</span><span class="s0">this,</span><span class="s1">drawerLayout</span><span class="s0">,</span><span class="s1">toolbar</span><span class="s0">,</span><span class="s1">R.string.open</span><span class="s0">,</span><span class="s1">R.string.close)</span><span class="s0">;</span>
+        <span class="s1">drawerLayout.addDrawerListener(toggle)</span><span class="s0">;</span>
+        <span class="s1">toggle.syncState()</span><span class="s0">;</span>
+
+        <span class="s1">View view = navigationView.getHeaderView(</span><span class="s3">0</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">profile = view.findViewById(R.id.profile)</span><span class="s0">;</span>
+        <span class="s1">seller_name = view.findViewById(R.id.seller_name)</span><span class="s0">;</span>
+        <span class="s1">shopNameTv = view.findViewById(R.id.shopNameTv)</span><span class="s0">;</span>
+        <span class="s1">emailTV = view.findViewById(R.id.emailTV)</span><span class="s0">;</span>
+        <span class="s1">showProducts=findViewById(R.id.showProducts)</span><span class="s0">;</span>
+        <span class="s1">showOrders=findViewById(R.id.showOrders)</span><span class="s0">;</span>
+        <span class="s1">filterProductTv=findViewById(R.id.filterProductTv)</span><span class="s0">;</span>
+        <span class="s1">searchProductEt=findViewById(R.id.searchProductEt)</span><span class="s0">;</span>
+        <span class="s1">productRl=findViewById(R.id.productRl)</span><span class="s0">;</span>
+        <span class="s1">orderRl=findViewById(R.id.orderRl)</span><span class="s0">;</span>
+        <span class="s1">productsRv=findViewById(R.id.productsRv)</span><span class="s0">;</span>
+        <span class="s1">imageButton2 = findViewById(R.id.imageButton2)</span><span class="s0">;</span>
+        <span class="s1">addProductBtn = findViewById(R.id.addProductBtn)</span><span class="s0">;</span>
+        <span class="s1">filterProductBtn=findViewById(R.id.filterProductBtn)</span><span class="s0">;</span>
+
+        <span class="s1">progressDialog = </span><span class="s0">new </span><span class="s1">ProgressDialog(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">progressDialog.setTitle(</span><span class="s4">&quot;Please Wait&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">progressDialog.setCanceledOnTouchOutside(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">firebaseAuth = FirebaseAuth.getInstance()</span><span class="s0">;</span>
+        <span class="s1">checkUser()</span><span class="s0">;</span>
+        <span class="s1">loadAllProducts()</span><span class="s0">;</span>
+        <span class="s1">showProductsUI()</span><span class="s0">;</span>
+
+
+
+       <span class="s1">navigationView.setNavigationItemSelectedListener(</span><span class="s0">new </span><span class="s1">NavigationView.OnNavigationItemSelectedListener() {</span>
+           <span class="s1">@Override</span>
+           <span class="s0">public boolean </span><span class="s1">onNavigationItemSelected(@NonNull MenuItem item) {</span>
+                <span class="s1">drawerLayout.closeDrawer(GravityCompat.START)</span><span class="s0">;</span>
+               <span class="s0">switch</span><span class="s1">(item.getItemId())</span>
+               <span class="s1">{</span>
+
+                          <span class="s0">case </span><span class="s1">R.id.addProductBtn:</span>
+                          <span class="s2">// open add product activity</span>
+                          <span class="s1">startActivity(</span><span class="s0">new </span><span class="s1">Intent(MainSellerActivity.</span><span class="s0">this,</span><span class="s1">AddProductActivity.</span><span class="s0">class</span><span class="s1">))</span><span class="s0">;</span>
+                          <span class="s1">finish()</span><span class="s0">;</span>
+                          <span class="s0">break;</span>
+
+                          <span class="s0">case </span><span class="s1">R.id.myProfile:</span>
+                              <span class="s2">//open show profile activity</span>
+                              <span class="s1">startActivity(</span><span class="s0">new </span><span class="s1">Intent(MainSellerActivity.</span><span class="s0">this,</span><span class="s1">ShowProfileActivity.</span><span class="s0">class</span><span class="s1">))</span><span class="s0">;</span>
+                              <span class="s1">finish()</span><span class="s0">;</span>
+                              <span class="s0">break;</span>
+
+                          <span class="s0">case </span><span class="s1">R.id.editProfile:</span>
+                          <span class="s2">//open show profile activity</span>
+                          <span class="s1">startActivity(</span><span class="s0">new </span><span class="s1">Intent(MainSellerActivity.</span><span class="s0">this,</span><span class="s1">EditProfileSeller.</span><span class="s0">class</span><span class="s1">))</span><span class="s0">;</span>
+                          <span class="s1">finish()</span><span class="s0">;</span>
+                          <span class="s0">break;</span>
+
+
+                   <span class="s0">case </span><span class="s1">R.id.imageButton2:</span>
+                               <span class="s2">// after logging out make user offline</span>
+                               <span class="s1">progressDialog.setMessage(</span><span class="s4">&quot;Logging Out...&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                               <span class="s1">HashMap&lt;String</span><span class="s0">, </span><span class="s1">Object&gt; hashMap = </span><span class="s0">new </span><span class="s1">HashMap&lt;&gt;()</span><span class="s0">;</span>
+                               <span class="s1">hashMap.put(</span><span class="s4">&quot;online&quot;</span><span class="s0">,</span><span class="s4">&quot;false&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+                               <span class="s2">//update value to db</span>
+                               <span class="s1">DatabaseReference ref = FirebaseDatabase.getInstance().getReference(</span><span class="s4">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                               <span class="s1">ref.child(firebaseAuth.getUid()).updateChildren(hashMap)</span>
+                                       <span class="s1">.addOnSuccessListener(</span><span class="s0">new </span><span class="s1">OnSuccessListener&lt;Void&gt;() {</span>
+                                           <span class="s1">@Override</span>
+                                           <span class="s0">public void </span><span class="s1">onSuccess(Void aVoid) {</span>
+                                               <span class="s2">//update successfully</span>
+                                               <span class="s1">firebaseAuth.signOut()</span><span class="s0">;</span>
+                                               <span class="s1">checkUser()</span><span class="s0">;</span>
+
+                                           <span class="s1">}</span>
+                                       <span class="s1">})</span>
+                                       <span class="s1">.addOnFailureListener(</span><span class="s0">new </span><span class="s1">OnFailureListener() {</span>
+                                           <span class="s1">@Override</span>
+                                           <span class="s0">public void </span><span class="s1">onFailure(@NonNull Exception e) {</span>
+                                               <span class="s1">progressDialog.dismiss()</span><span class="s0">;</span>
+                                               <span class="s1">Toast.makeText(MainSellerActivity.</span><span class="s0">this,</span><span class="s4">&quot;&quot; </span><span class="s1">+ e.getMessage()</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                                           <span class="s1">}</span>
+                                       <span class="s1">})</span><span class="s0">;</span>
+                               <span class="s0">break;</span>
+
+                   <span class="s0">case </span><span class="s1">R.id.aboutTriunity:</span>
+                       <span class="s1">startActivity(</span><span class="s0">new </span><span class="s1">Intent(MainSellerActivity.</span><span class="s0">this,</span><span class="s1">AboutTriunity.</span><span class="s0">class</span><span class="s1">))</span><span class="s0">;</span>
+                       <span class="s1">finish()</span><span class="s0">;</span>
+                       <span class="s0">break;</span>
+
+                   <span class="s0">case </span><span class="s1">R.id.helpCenter:</span>
+                       <span class="s1">startActivity(</span><span class="s0">new </span><span class="s1">Intent(Intent.ACTION_SENDTO</span><span class="s0">,</span><span class="s1">Uri.parse(</span><span class="s4">&quot;mailto:work.withtriunity@gmail.com&quot;</span><span class="s1">)))</span><span class="s0">;</span>
+
+               <span class="s1">}</span>
+               <span class="s0">return true;</span>
+           <span class="s1">}</span>
+       <span class="s1">})</span><span class="s0">;</span>
+
+       <span class="s1">profile.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+           <span class="s1">@Override</span>
+           <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+               <span class="s1">showImagePickDialog()</span><span class="s0">;</span>
+           <span class="s1">}</span>
+       <span class="s1">})</span><span class="s0">;</span>
+       <span class="s1">showProducts.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+           <span class="s1">@Override</span>
+           <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+               <span class="s2">//load products</span>
+               <span class="s1">showProductsUI()</span><span class="s0">;</span>
+           <span class="s1">}</span>
+       <span class="s1">})</span><span class="s0">;</span>
+
+       <span class="s1">showOrders.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+           <span class="s1">@Override</span>
+           <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+               <span class="s2">//load Orders</span>
+              <span class="s1">showOrdersUI()</span><span class="s0">;</span>
+           <span class="s1">}</span>
+       <span class="s1">})</span><span class="s0">;</span>
+
+
+
+       <span class="s1">filterProductBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+           <span class="s1">@Override</span>
+           <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+               <span class="s1">AlertDialog.Builder builder = </span><span class="s0">new </span><span class="s1">AlertDialog.Builder(MainSellerActivity.</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+               <span class="s1">builder.setTitle(</span><span class="s4">&quot;Choose Category:&quot;</span><span class="s1">)</span>
+                       <span class="s1">.setItems(Constants.productCategories1</span><span class="s0">,new </span><span class="s1">DialogInterface.OnClickListener() {</span>
+                           <span class="s1">@Override</span>
+                           <span class="s0">public void </span><span class="s1">onClick(DialogInterface dialog</span><span class="s0">,int </span><span class="s1">which) {</span>
+                             <span class="s2">//get selected item</span>
+                               <span class="s1">String selected = Constants.productCategories1[which]</span><span class="s0">;</span>
+                               <span class="s1">filterProductTv.setText(selected)</span><span class="s0">;</span>
+                               <span class="s0">if</span><span class="s1">(selected.equals(</span><span class="s4">&quot;All&quot;</span><span class="s1">)){</span>
+                                   <span class="s1">loadAllProducts()</span><span class="s0">;</span>
+                               <span class="s1">}</span>
+                               <span class="s0">else</span><span class="s1">{</span>
+                                   <span class="s2">//load filtered</span>
+                                   <span class="s1">loadFilteredProducts(selected)</span><span class="s0">;</span>
+                               <span class="s1">}</span>
+                           <span class="s1">}</span>
+                       <span class="s1">})</span>
+               <span class="s1">.show()</span><span class="s0">;</span>
+           <span class="s1">}</span>
+       <span class="s1">})</span><span class="s0">;</span>
+
+
+        <span class="s2">//search</span>
+        <span class="s1">searchProductEt.addTextChangedListener(</span><span class="s0">new </span><span class="s1">TextWatcher() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">beforeTextChanged(CharSequence s</span><span class="s0">,int </span><span class="s1">start</span><span class="s0">,int </span><span class="s1">count</span><span class="s0">,int </span><span class="s1">after) {</span>
+
+            <span class="s1">}</span>
+
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onTextChanged(CharSequence s</span><span class="s0">,int </span><span class="s1">start</span><span class="s0">,int </span><span class="s1">before</span><span class="s0">,int </span><span class="s1">count) {</span>
+                <span class="s0">try</span><span class="s1">{</span>
+                    <span class="s1">adapterProductSeller.getFilter().filter(s)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">catch </span><span class="s1">(Exception e){</span>
+                    <span class="s1">e.printStackTrace()</span><span class="s0">;</span>
+                <span class="s1">}</span>
+
+            <span class="s1">}</span>
+
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">afterTextChanged(Editable s) {</span>
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">loadFilteredProducts(String selected) {</span>
+        <span class="s1">productList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+
+        <span class="s2">//get all products</span>
+        <span class="s1">DatabaseReference reference = FirebaseDatabase.getInstance().getReference(</span><span class="s4">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">reference.child(firebaseAuth.getUid()).child(</span><span class="s4">&quot;Products&quot;</span><span class="s1">)</span>
+                <span class="s1">.addValueEventListener(</span><span class="s0">new </span><span class="s1">ValueEventListener() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onDataChange(@NonNull DataSnapshot snapshot) {</span>
+                        <span class="s2">//before getting reset list</span>
+                        <span class="s1">productList.clear()</span><span class="s0">;</span>
+                        <span class="s0">for</span><span class="s1">( DataSnapshot ds: snapshot.getChildren()){</span>
+
+                            <span class="s1">String productCategory = </span><span class="s4">&quot;&quot;</span><span class="s1">+ds.child(</span><span class="s4">&quot;productCategory&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+
+                            <span class="s2">//if selected category matches product category then add in list</span>
+                            <span class="s0">if</span><span class="s1">(selected.equals(productCategory)){</span>
+                                <span class="s1">ModelProduct modelProduct = ds.getValue(ModelProduct.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span>
+                                <span class="s1">productList.add(modelProduct)</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+
+
+                        <span class="s1">}</span>
+                        <span class="s2">//setup adapter</span>
+                        <span class="s1">adapterProductSeller = </span><span class="s0">new </span><span class="s1">AdapterProductSeller(MainSellerActivity.</span><span class="s0">this,</span><span class="s1">productList)</span><span class="s0">;</span>
+                        <span class="s2">//set adapter</span>
+                        <span class="s1">productsRv.setAdapter(adapterProductSeller)</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onCancelled(@NonNull DatabaseError error) {</span>
+
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">loadAllProducts() {</span>
+
+        <span class="s1">productList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+
+        <span class="s2">//get all products</span>
+        <span class="s1">DatabaseReference reference = FirebaseDatabase.getInstance().getReference(</span><span class="s4">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">reference.child(firebaseAuth.getUid()).child(</span><span class="s4">&quot;Products&quot;</span><span class="s1">)</span>
+                <span class="s1">.addValueEventListener(</span><span class="s0">new </span><span class="s1">ValueEventListener() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onDataChange(@NonNull DataSnapshot snapshot) {</span>
+                        <span class="s2">//before getting reset list</span>
+                        <span class="s1">productList.clear()</span><span class="s0">;</span>
+                        <span class="s0">for</span><span class="s1">( DataSnapshot ds: snapshot.getChildren()){</span>
+                           <span class="s1">ModelProduct modelProduct = ds.getValue(ModelProduct.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span>
+                           <span class="s1">productList.add(modelProduct)</span><span class="s0">;</span>
+                        <span class="s1">}</span>
+                        <span class="s2">//setup adapter</span>
+                        <span class="s1">adapterProductSeller = </span><span class="s0">new </span><span class="s1">AdapterProductSeller(MainSellerActivity.</span><span class="s0">this,</span><span class="s1">productList)</span><span class="s0">;</span>
+                        <span class="s2">//set adapter</span>
+                        <span class="s1">productsRv.setAdapter(adapterProductSeller)</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onCancelled(@NonNull DatabaseError error) {</span>
+
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+
+
+    <span class="s0">private void </span><span class="s1">showProductsUI() {</span>
+        <span class="s2">//show products and hide orders ui</span>
+        <span class="s1">productRl.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+        <span class="s1">orderRl.setVisibility(View.GONE)</span><span class="s0">;</span>
+
+        <span class="s1">showProducts.setTextColor(getResources().getColor(R.color.Black))</span><span class="s0">;</span>
+        <span class="s1">showProducts.setBackgroundResource(R.drawable.shape_rect04)</span><span class="s0">;</span>
+
+        <span class="s1">showOrders.setTextColor(getResources().getColor(R.color.white))</span><span class="s0">;</span>
+        <span class="s1">showOrders.setBackgroundColor(getResources().getColor(android.R.color.transparent))</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+    <span class="s0">private void </span><span class="s1">showOrdersUI() {</span>
+        <span class="s2">//show orders and hide products ui</span>
+        <span class="s1">orderRl.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+        <span class="s1">productRl.setVisibility(View.GONE)</span><span class="s0">;</span>
+
+        <span class="s1">showProducts.setTextColor(getResources().getColor(R.color.white))</span><span class="s0">;</span>
+        <span class="s1">showProducts.setBackgroundColor(getResources().getColor(android.R.color.transparent))</span><span class="s0">;</span>
+
+        <span class="s1">showOrders.setTextColor(getResources().getColor(R.color.Black))</span><span class="s0">;</span>
+        <span class="s1">showOrders.setBackgroundResource(R.drawable.shape_rect04)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onBackPressed() {</span>
+
+        <span class="s0">if</span><span class="s1">(drawerLayout.isDrawerOpen(GravityCompat.START)) {</span>
+
+            <span class="s1">drawerLayout.closeDrawer(GravityCompat.START)</span><span class="s0">;</span>
+
+        <span class="s1">}</span>
+
+        <span class="s0">else</span><span class="s1">{</span>
+            <span class="s0">super</span><span class="s1">.onBackPressed()</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">checkUser() {</span>
+
+        <span class="s1">FirebaseUser user = firebaseAuth.getCurrentUser( )</span><span class="s0">;</span>
+        <span class="s0">if </span><span class="s1">(user == </span><span class="s0">null</span><span class="s1">) {</span>
+            <span class="s2">//user not logged in start login activity</span>
+            <span class="s1">startActivity(</span><span class="s0">new </span><span class="s1">Intent(MainSellerActivity.</span><span class="s0">this,</span><span class="s1">Login.</span><span class="s0">class</span><span class="s1">))</span><span class="s0">;</span>
+            <span class="s1">finish( )</span><span class="s0">;</span>
+
+        <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+            <span class="s2">//user is logger in,check user type</span>
+            <span class="s1">loadMyInfo( )</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">loadMyInfo() {</span>
+        <span class="s1">DatabaseReference ref = FirebaseDatabase.getInstance( ).getReference(</span><span class="s4">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">ref.orderByChild(</span><span class="s4">&quot;uid&quot;</span><span class="s1">).equalTo(firebaseAuth.getUid( ))</span>
+                <span class="s1">.addValueEventListener(</span><span class="s0">new </span><span class="s1">ValueEventListener( ) {</span>
+                    <span class="s1">@SuppressLint(</span><span class="s4">&quot;SetTextI18n&quot;</span><span class="s1">)</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onDataChange(@NonNull DataSnapshot snapshot) {</span>
+
+                        <span class="s0">for </span><span class="s1">(DataSnapshot ds : snapshot.getChildren( )) {</span>
+                            <span class="s1">String name = </span><span class="s4">&quot;&quot; </span><span class="s1">+ ds.child(</span><span class="s4">&quot;name&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                            <span class="s1">String shopName = </span><span class="s4">&quot;&quot; </span><span class="s1">+ ds.child(</span><span class="s4">&quot;shopName&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                            <span class="s1">String email = </span><span class="s4">&quot;&quot; </span><span class="s1">+ ds.child(</span><span class="s4">&quot;email&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                            <span class="s1">seller_name.setText(name)</span><span class="s0">;</span>
+                            <span class="s1">shopNameTv.setText(shopName)</span><span class="s0">;</span>
+                            <span class="s1">emailTV.setText(email)</span><span class="s0">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">}</span>
+
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onCancelled(@NonNull DatabaseError error) {</span>
+
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">showImage()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+    <span class="s0">private void </span><span class="s1">showImagePickDialog() {</span>
+
+
+        <span class="s2">//options to display in dialog</span>
+        <span class="s1">String[] options={</span><span class="s4">&quot;Camera&quot;</span><span class="s0">,</span><span class="s4">&quot;Gallery&quot;</span><span class="s1">}</span><span class="s0">;</span>
+        <span class="s2">//dialog</span>
+        <span class="s1">AlertDialog.Builder builder = </span><span class="s0">new </span><span class="s1">AlertDialog.Builder(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">builder.setTitle(</span><span class="s4">&quot;Pick Image&quot;</span><span class="s1">)</span>
+                <span class="s1">.setItems(options</span><span class="s0">,new </span><span class="s1">DialogInterface.OnClickListener() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onClick(DialogInterface dialog</span><span class="s0">,int </span><span class="s1">which) {</span>
+
+                        <span class="s2">//handles item</span>
+                        <span class="s0">if </span><span class="s1">(which==</span><span class="s3">0</span><span class="s1">){</span>
+                            <span class="s2">//camera clicked</span>
+                            <span class="s0">if</span><span class="s1">(checkCameraPermission()){</span>
+                                <span class="s2">//permission granted</span>
+                                <span class="s1">pickFromCamera()</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+                            <span class="s0">else</span>
+                            <span class="s1">{</span>
+                                <span class="s2">//permission not granted, request</span>
+                                <span class="s1">requestCameraPermission()</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+                        <span class="s1">}</span>
+                        <span class="s0">else</span><span class="s1">{</span>
+                            <span class="s2">//gallery picked</span>
+                            <span class="s0">if</span><span class="s1">(checkStoragePermission()){</span>
+                                <span class="s2">//permission granted</span>
+                                <span class="s1">pickFromGallery()</span><span class="s0">;</span>
+
+                            <span class="s1">}</span>
+                            <span class="s0">else</span><span class="s1">{</span>
+                                <span class="s2">//permission not granted, request</span>
+                                <span class="s1">requestStoragePermission()</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+
+                        <span class="s1">}</span>
+                    <span class="s1">}</span>
+                <span class="s1">})</span>
+                <span class="s1">.show()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">showImage() {</span>
+
+        <span class="s1">DatabaseReference reference = FirebaseDatabase.getInstance().getReference(</span><span class="s4">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">reference.child(firebaseAuth.getUid()).child(</span><span class="s4">&quot;SellerProfile&quot;</span><span class="s1">)</span>
+                <span class="s1">.addValueEventListener(</span><span class="s0">new </span><span class="s1">ValueEventListener() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onDataChange(@NonNull DataSnapshot snapshot) {</span>
+                        <span class="s0">for</span><span class="s1">( DataSnapshot ds: snapshot.getChildren()){</span>
+                            <span class="s1">String profileImage = </span><span class="s4">&quot;&quot;</span><span class="s1">+ds.child(</span><span class="s4">&quot;profile&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                            <span class="s0">try</span><span class="s1">{</span>
+                                <span class="s1">Picasso.get().load(profileImage).placeholder(R.drawable.user_profile).into(profile)</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+                            <span class="s0">catch</span><span class="s1">(Exception e){</span>
+                                <span class="s1">profile.setImageResource(R.drawable.user_profile)</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+                        <span class="s1">}</span>
+
+                    <span class="s1">}</span>
+
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onCancelled(@NonNull DatabaseError error) {</span>
+
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+        <span class="s1">showShopImage()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">showShopImage() {</span>
+
+        <span class="s1">DatabaseReference reference = FirebaseDatabase.getInstance().getReference(</span><span class="s4">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">reference.child(firebaseAuth.getUid()).child(</span><span class="s4">&quot;SellerProfile&quot;</span><span class="s1">)</span>
+                <span class="s1">.addValueEventListener(</span><span class="s0">new </span><span class="s1">ValueEventListener() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onDataChange(@NonNull DataSnapshot snapshot) {</span>
+                        <span class="s0">for</span><span class="s1">( DataSnapshot ds: snapshot.getChildren()){</span>
+                            <span class="s1">String profileImage = </span><span class="s4">&quot;&quot;</span><span class="s1">+ds.child(</span><span class="s4">&quot;profile&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                            <span class="s0">try</span><span class="s1">{</span>
+                                <span class="s1">Picasso.get().load(profileImage).placeholder(R.drawable.local_store).into(profile)</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+                            <span class="s0">catch</span><span class="s1">(Exception e){</span>
+                             <span class="s1">profile.setImageResource(R.drawable.local_store)</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+                        <span class="s1">}</span>
+
+                    <span class="s1">}</span>
+
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onCancelled(@NonNull DatabaseError error) {</span>
+
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+    <span class="s0">private void </span><span class="s1">addProfileData() {</span>
+        <span class="s2">// 3) Add data to database</span>
+
+        <span class="s1">progressDialog.setMessage(</span><span class="s4">&quot;Adding Profile Picture..&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">progressDialog.show()</span><span class="s0">;</span>
+
+        <span class="s0">final </span><span class="s1">String timestamp = </span><span class="s4">&quot;&quot;</span><span class="s1">+System.currentTimeMillis()</span><span class="s0">;</span>
+
+        <span class="s2">//upload with image</span>
+        <span class="s2">//first upload image to storage</span>
+        <span class="s2">//name and path of image to be uploaded</span>
+        <span class="s1">String filePathAndName = </span><span class="s4">&quot;profile_image/&quot; </span><span class="s1">+ </span><span class="s4">&quot; &quot; </span><span class="s1">+ timestamp</span><span class="s0">;</span>
+        <span class="s1">StorageReference storageReference = FirebaseStorage.getInstance().getReference(filePathAndName)</span><span class="s0">;</span>
+        <span class="s1">storageReference.putFile(image_uri)</span>
+                <span class="s1">.addOnSuccessListener(</span><span class="s0">new </span><span class="s1">OnSuccessListener&lt;UploadTask.TaskSnapshot&gt;() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onSuccess(UploadTask.TaskSnapshot taskSnapshot) {</span>
+                        <span class="s2">//image uploaded</span>
+                        <span class="s2">//get url of uploaded image</span>
+                        <span class="s1">Task&lt;Uri&gt; uriTask = taskSnapshot.getStorage().getDownloadUrl()</span><span class="s0">;</span>
+                        <span class="s0">while </span><span class="s1">(!uriTask.isSuccessful())</span><span class="s0">;</span>
+
+                        <span class="s1">Uri downloadImageUri = uriTask.getResult()</span><span class="s0">;</span>
+
+                        <span class="s0">if</span><span class="s1">(uriTask.isSuccessful()){</span>
+                            <span class="s2">//url of image received, upload to db</span>
+                            <span class="s2">// add to db</span>
+                            <span class="s1">HashMap&lt;String</span><span class="s0">,</span><span class="s1">Object&gt; hashMap = </span><span class="s0">new </span><span class="s1">HashMap&lt;&gt;()</span><span class="s0">;</span>
+                            <span class="s1">hashMap.put(</span><span class="s4">&quot;uid&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot;</span><span class="s1">+firebaseAuth.getUid())</span><span class="s0">;</span>
+                            <span class="s1">hashMap.put(</span><span class="s4">&quot;profile&quot;</span><span class="s0">,</span><span class="s4">&quot;&quot;</span><span class="s1">+downloadImageUri)</span><span class="s0">;</span>
+
+                            <span class="s2">//save to db</span>
+                            <span class="s1">DatabaseReference reference = FirebaseDatabase.getInstance().getReference(</span><span class="s4">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                            <span class="s1">reference.child(firebaseAuth.getUid()).child(</span><span class="s4">&quot;SellerProfile&quot;</span><span class="s1">).child(timestamp).setValue(hashMap)</span>
+                                    <span class="s1">.addOnSuccessListener(</span><span class="s0">new </span><span class="s1">OnSuccessListener&lt;Void&gt;() {</span>
+                                        <span class="s1">@Override</span>
+                                        <span class="s0">public void </span><span class="s1">onSuccess(Void aVoid) {</span>
+                                            <span class="s2">//db updated</span>
+                                            <span class="s1">progressDialog.dismiss()</span><span class="s0">;</span>
+                                            <span class="s1">Toast.makeText(MainSellerActivity.</span><span class="s0">this,</span><span class="s4">&quot;Profile Picture Uploaded.&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+
+                                        <span class="s1">}</span>
+                                    <span class="s1">})</span>
+                                    <span class="s1">.addOnFailureListener(</span><span class="s0">new </span><span class="s1">OnFailureListener() {</span>
+                                        <span class="s1">@Override</span>
+                                        <span class="s0">public void </span><span class="s1">onFailure(@NonNull Exception e) {</span>
+                                            <span class="s1">progressDialog.dismiss()</span><span class="s0">;</span>
+                                            <span class="s1">Toast.makeText(MainSellerActivity.</span><span class="s0">this,</span><span class="s4">&quot;&quot;</span><span class="s1">+e.getMessage()</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                                        <span class="s1">}</span>
+                                    <span class="s1">})</span><span class="s0">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">}</span>
+                <span class="s1">})</span>
+                <span class="s1">.addOnFailureListener(</span><span class="s0">new </span><span class="s1">OnFailureListener() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onFailure(@NonNull Exception e) {</span>
+                        <span class="s1">progressDialog.dismiss()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+
+    <span class="s0">private void </span><span class="s1">pickFromGallery(){</span>
+        <span class="s2">//pick from gallery</span>
+        <span class="s1">Intent intent = </span><span class="s0">new </span><span class="s1">Intent(Intent.ACTION_PICK)</span><span class="s0">;</span>
+        <span class="s1">intent.setType(</span><span class="s4">&quot;image/*&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">startActivityForResult(intent</span><span class="s0">,</span><span class="s1">IMAGE_PICK_GALLERY_CODE)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">pickFromCamera(){</span>
+
+        <span class="s2">//using media store to pick high /original quality image</span>
+        <span class="s1">ContentValues contentValues = </span><span class="s0">new </span><span class="s1">ContentValues()</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(MediaStore.Images.Media.TITLE</span><span class="s0">, </span><span class="s4">&quot;Temp_Image_Title&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">contentValues.put(MediaStore.Images.Media.DESCRIPTION</span><span class="s0">,</span><span class="s4">&quot;Temp_Image_Description&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s1">image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI</span><span class="s0">,</span><span class="s1">contentValues)</span><span class="s0">;</span>
+        <span class="s1">Intent intent = </span><span class="s0">new </span><span class="s1">Intent(MediaStore.ACTION_IMAGE_CAPTURE)</span><span class="s0">;</span>
+        <span class="s1">intent.putExtra(MediaStore.EXTRA_OUTPUT</span><span class="s0">,</span><span class="s1">image_uri)</span><span class="s0">;</span>
+        <span class="s1">startActivityForResult(intent</span><span class="s0">,</span><span class="s1">IMAGE_PICK_CAMERA_CODE)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private boolean </span><span class="s1">checkStoragePermission(){</span>
+        <span class="s0">boolean </span><span class="s1">result = ContextCompat.checkSelfPermission(</span><span class="s0">this,</span><span class="s1">Manifest.permission.WRITE_EXTERNAL_STORAGE) ==</span>
+                <span class="s1">(PackageManager.PERMISSION_GRANTED)</span><span class="s0">;</span>
+        <span class="s0">return </span><span class="s1">result</span><span class="s0">; </span><span class="s2">// return true or false</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">requestStoragePermission(){</span>
+        <span class="s1">ActivityCompat.requestPermissions(</span><span class="s0">this,</span><span class="s1">storagePermissions</span><span class="s0">,</span><span class="s1">STORAGE_REQUEST_CODE)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private boolean </span><span class="s1">checkCameraPermission(){</span>
+
+        <span class="s0">boolean </span><span class="s1">result = ContextCompat.checkSelfPermission(</span><span class="s0">this,</span><span class="s1">Manifest.permission.CAMERA) ==</span>
+                <span class="s1">(PackageManager.PERMISSION_GRANTED)</span><span class="s0">;</span>
+
+        <span class="s0">boolean </span><span class="s1">result1 = ContextCompat.checkSelfPermission(</span><span class="s0">this,</span><span class="s1">Manifest.permission.WRITE_EXTERNAL_STORAGE) ==</span>
+                <span class="s1">(PackageManager.PERMISSION_GRANTED)</span><span class="s0">;</span>
+
+        <span class="s0">return </span><span class="s1">result &amp;&amp; result1</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">requestCameraPermission(){</span>
+        <span class="s1">ActivityCompat.requestPermissions(</span><span class="s0">this,</span><span class="s1">cameraPermissions</span><span class="s0">,</span><span class="s1">CAMERA_REQUEST_CODE)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+    <span class="s2">// handle permission results</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onRequestPermissionsResult(</span><span class="s0">int </span><span class="s1">requestCode</span><span class="s0">,</span><span class="s1">@NonNull String[] permissions</span><span class="s0">,</span><span class="s1">@NonNull </span><span class="s0">int</span><span class="s1">[] grantResults) {</span>
+        <span class="s0">switch </span><span class="s1">(requestCode){</span>
+
+            <span class="s0">case </span><span class="s1">CAMERA_REQUEST_CODE:{</span>
+                <span class="s0">if</span><span class="s1">(grantResults.length&gt;</span><span class="s3">0</span><span class="s1">){</span>
+                    <span class="s0">boolean </span><span class="s1">cameraAccepted = grantResults[</span><span class="s3">0</span><span class="s1">] == PackageManager.PERMISSION_GRANTED</span><span class="s0">;</span>
+                    <span class="s0">boolean </span><span class="s1">storageAccepted = grantResults[</span><span class="s3">1</span><span class="s1">] == PackageManager.PERMISSION_GRANTED</span><span class="s0">;</span>
+                    <span class="s0">if</span><span class="s1">(cameraAccepted &amp;&amp; storageAccepted){</span>
+                        <span class="s2">//both permissions granted</span>
+                        <span class="s1">pickFromCamera()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                    <span class="s0">else</span><span class="s1">{</span>
+                        <span class="s2">//both or one of permissions denied</span>
+                        <span class="s1">Toast.makeText(</span><span class="s0">this,</span><span class="s4">&quot;Camera &amp; Storage permissions are required..&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+
+            <span class="s0">case </span><span class="s1">STORAGE_REQUEST_CODE:{</span>
+                <span class="s0">if</span><span class="s1">(grantResults.length&gt;</span><span class="s3">0</span><span class="s1">){</span>
+                    <span class="s0">boolean </span><span class="s1">storageAccepted = grantResults[</span><span class="s3">0</span><span class="s1">] == PackageManager.PERMISSION_GRANTED</span><span class="s0">;</span>
+                    <span class="s0">if</span><span class="s1">(storageAccepted){</span>
+                        <span class="s2">//permission grated</span>
+                        <span class="s1">pickFromGallery()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                    <span class="s0">else</span><span class="s1">{</span>
+                        <span class="s1">Toast.makeText(</span><span class="s0">this,</span><span class="s4">&quot;Storage permissions is required..&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+
+                    <span class="s1">}</span>
+                <span class="s1">}</span>
+
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s0">super</span><span class="s1">.onRequestPermissionsResult(requestCode</span><span class="s0">,</span><span class="s1">permissions</span><span class="s0">,</span><span class="s1">grantResults)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+    <span class="s2">//handle image pick results</span>
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onActivityResult(</span><span class="s0">int </span><span class="s1">requestCode</span><span class="s0">,int </span><span class="s1">resultCode</span><span class="s0">,</span><span class="s1">@Nullable Intent data) {</span>
+        <span class="s0">if</span><span class="s1">(resultCode == RESULT_OK){</span>
+
+            <span class="s0">if</span><span class="s1">(requestCode == IMAGE_PICK_GALLERY_CODE){</span>
+                <span class="s2">//image picked from gallery</span>
+
+                <span class="s2">//save picked image uri</span>
+                <span class="s1">image_uri =data.getData()</span><span class="s0">;</span>
+
+                <span class="s2">//set image</span>
+                <span class="s1">profile.setImageURI(image_uri)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s0">else if </span><span class="s1">(requestCode == IMAGE_PICK_CAMERA_CODE){</span>
+                <span class="s2">//image picked from camera</span>
+               <span class="s1">profile.setImageURI(image_uri)</span><span class="s0">;</span>
+
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+
+
+        <span class="s0">super</span><span class="s1">.onActivityResult(requestCode</span><span class="s0">,</span><span class="s1">resultCode</span><span class="s0">,</span><span class="s1">data)</span><span class="s0">;</span>
+        <span class="s1">addProfileData()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+
+
+<span class="s1">}</span></pre>
+</body>
+</html>

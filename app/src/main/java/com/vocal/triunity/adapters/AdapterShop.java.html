@@ -1,0 +1,165 @@
+<html>
+<head>
+<title>AdapterShop.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+AdapterShop.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.vocal.triunity.adapters</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.content.Context</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.LayoutInflater</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ImageView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.RatingBar</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.RecyclerView</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseAuth</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DataSnapshot</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseError</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseReference</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.FirebaseDatabase</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.ValueEventListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.squareup.picasso.Picasso</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.R</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.activities.ShopDetailsActivity</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.models.ModelShop</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">AdapterShop </span><span class="s0">extends </span><span class="s1">RecyclerView.Adapter&lt;AdapterShop.HolderShop&gt; {</span>
+
+    <span class="s0">private </span><span class="s1">Context context</span><span class="s0">;</span>
+    <span class="s0">public </span><span class="s1">ArrayList&lt;ModelShop&gt; shopsList</span><span class="s0">;</span>
+
+
+    <span class="s0">public </span><span class="s1">AdapterShop(Context context</span><span class="s0">,</span><span class="s1">ArrayList&lt;ModelShop&gt; shopsList) {</span>
+        <span class="s0">this</span><span class="s1">.context = context</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.shopsList = shopsList</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@NonNull</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">HolderShop onCreateViewHolder(@NonNull ViewGroup parent</span><span class="s0">,int </span><span class="s1">viewType) {</span>
+       <span class="s2">//inflate layout row.shop.XML</span>
+        <span class="s1">View view = LayoutInflater.from(context).inflate(R.layout.row_shop</span><span class="s0">,</span><span class="s1">parent</span><span class="s0">,false</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s0">return new </span><span class="s1">HolderShop(view)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onBindViewHolder(@NonNull HolderShop holder</span><span class="s0">,int </span><span class="s1">position) {</span>
+        <span class="s2">//get Data</span>
+        <span class="s1">ModelShop modelShop = shopsList.get(position)</span><span class="s0">;</span>
+        <span class="s1">String accountType = modelShop.getAccountType()</span><span class="s0">;</span>
+        <span class="s1">String address = modelShop.getAddress()</span><span class="s0">;</span>
+        <span class="s1">String deliveryFee = modelShop.getDeliveryFee()</span><span class="s0">;</span>
+        <span class="s1">String email = modelShop.getEmail()</span><span class="s0">;</span>
+        <span class="s1">String latitude= modelShop.getLatitude()</span><span class="s0">;</span>
+        <span class="s1">String longitude = modelShop.getLongitude()</span><span class="s0">;</span>
+        <span class="s1">String online = modelShop.getOnline()</span><span class="s0">;</span>
+        <span class="s1">String name = modelShop.getName()</span><span class="s0">;</span>
+        <span class="s1">String profileImage = modelShop.getProfileImage()</span><span class="s0">;</span>
+        <span class="s1">String phone = modelShop.getPhone()</span><span class="s0">;</span>
+        <span class="s0">final </span><span class="s1">String uid = modelShop.getUid()</span><span class="s0">;</span>
+        <span class="s1">String timestamp = modelShop.getTimestamp()</span><span class="s0">;</span>
+        <span class="s1">String shopOpen = modelShop.getShopOpen()</span><span class="s0">;</span>
+        <span class="s1">String shopName = modelShop.getShopName()</span><span class="s0">;</span>
+
+
+        <span class="s2">//set data</span>
+        <span class="s1">holder.shopNameTv.setText(shopName)</span><span class="s0">;</span>
+        <span class="s1">holder.phoneTv.setText(phone)</span><span class="s0">;</span>
+        <span class="s1">holder.addressTv.setText(address)</span><span class="s0">;</span>
+
+        <span class="s2">//check if online</span>
+        <span class="s0">if</span><span class="s1">(online.equals(</span><span class="s3">&quot;true&quot;</span><span class="s1">)){</span>
+            <span class="s2">//shop owner is online</span>
+            <span class="s1">holder.onlineIv.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">else</span><span class="s1">{</span>
+            <span class="s2">//shop owner is offline</span>
+            <span class="s1">holder.onlineIv.setVisibility(View.GONE)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+                <span class="s2">//check if shop open</span>
+        <span class="s0">if</span><span class="s1">(online.equals(</span><span class="s3">&quot;true&quot;</span><span class="s1">)){</span>
+            <span class="s2">//shop open</span>
+            <span class="s1">holder.onlineIv.setVisibility(View.GONE)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">else</span><span class="s1">{</span>
+            <span class="s2">//shop closed</span>
+            <span class="s1">holder.onlineIv.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+
+        <span class="s0">try</span><span class="s1">{</span>
+                <span class="s1">Picasso.get().load(profileImage).placeholder(R.drawable.ic_store_gray).into(holder.shopIv)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">catch</span><span class="s1">(Exception e){</span>
+                <span class="s1">holder.shopIv.setImageResource(R.drawable.ic_store_gray)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+
+        <span class="s2">//handle click , show shop details</span>
+        <span class="s1">holder.itemView.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s1">Intent intent = </span><span class="s0">new </span><span class="s1">Intent(context</span><span class="s0">,</span><span class="s1">ShopDetailsActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">intent.putExtra(</span><span class="s3">&quot;shopUid&quot;</span><span class="s0">,</span><span class="s1">uid)</span><span class="s0">;</span>
+                <span class="s1">context.startActivity(intent)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+
+    <span class="s1">}</span>
+
+
+    <span class="s1">@Override</span>
+    <span class="s0">public int </span><span class="s1">getItemCount() {</span>
+        <span class="s0">return </span><span class="s1">shopsList.size()</span><span class="s0">; </span><span class="s2">// return numbers of records</span>
+    <span class="s1">}</span>
+
+
+    <span class="s2">//view holder</span>
+    <span class="s0">class </span><span class="s1">HolderShop </span><span class="s0">extends </span><span class="s1">RecyclerView.ViewHolder{</span>
+
+
+        <span class="s0">private </span><span class="s1">ImageView shopIv</span><span class="s0">,</span><span class="s1">onlineIv</span><span class="s0">;</span>
+        <span class="s0">private </span><span class="s1">TextView shopClosedTv</span><span class="s0">,</span><span class="s1">shopNameTv</span><span class="s0">,</span><span class="s1">phoneTv</span><span class="s0">,</span><span class="s1">addressTv</span><span class="s0">;</span>
+        <span class="s0">private </span><span class="s1">RatingBar ratingBar</span><span class="s0">;</span>
+
+
+         <span class="s2">//ui views of row_shop.xml</span>
+        <span class="s0">public </span><span class="s1">HolderShop(@NonNull View itemView) {</span>
+            <span class="s0">super</span><span class="s1">(itemView)</span><span class="s0">;</span>
+            <span class="s2">//init uid views</span>
+            <span class="s1">shopIv=itemView.findViewById(R.id.shopIv)</span><span class="s0">;</span>
+            <span class="s1">onlineIv=itemView.findViewById(R.id.onlineIv)</span><span class="s0">;</span>
+            <span class="s1">shopClosedTv=itemView.findViewById(R.id.shopClosedTv)</span><span class="s0">;</span>
+            <span class="s1">shopNameTv=itemView.findViewById(R.id.shopNameTv)</span><span class="s0">;</span>
+            <span class="s1">phoneTv=itemView.findViewById(R.id.phoneTv)</span><span class="s0">;</span>
+            <span class="s1">addressTv=itemView.findViewById(R.id.addressTv)</span><span class="s0">;</span>
+            <span class="s1">ratingBar=itemView.findViewById(R.id.ratingBar)</span><span class="s0">;</span>
+
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

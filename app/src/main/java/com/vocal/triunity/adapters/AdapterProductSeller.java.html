@@ -1,0 +1,311 @@
+<html>
+<head>
+<title>AdapterProductSeller.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+AdapterProductSeller.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.vocal.triunity.adapters</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.app.AlertDialog</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.Context</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.DialogInterface</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.graphics.Paint</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.LayoutInflater</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Filter</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Filterable</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ImageButton</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ImageView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.RecyclerView</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnFailureListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.gms.tasks.OnSuccessListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.android.material.bottomsheet.BottomSheetDialog</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseAuth</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseReference</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.FirebaseDatabase</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.squareup.picasso.Picasso</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.FilterProduct</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.FilterProductBuyer</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.R</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.activities.EditProductActivity</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.models.ModelProduct</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">AdapterProductSeller </span><span class="s0">extends </span><span class="s1">RecyclerView.Adapter&lt;AdapterProductSeller.HolderProductSeller&gt; </span><span class="s0">implements </span><span class="s1">Filterable {</span>
+
+    <span class="s1">Context context</span><span class="s0">;</span>
+    <span class="s0">public </span><span class="s1">ArrayList&lt;ModelProduct&gt; productList</span><span class="s0">, </span><span class="s1">filterList</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">FilterProduct filter</span><span class="s0">;</span>
+    <span class="s0">public </span><span class="s1">AdapterProductSeller(Context context</span><span class="s0">,</span><span class="s1">ArrayList&lt;ModelProduct&gt; productList) {</span>
+        <span class="s0">this</span><span class="s1">.context = context</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.productList = productList</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.filterList = productList</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@NonNull</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">HolderProductSeller onCreateViewHolder(@NonNull ViewGroup parent</span><span class="s0">,int </span><span class="s1">viewType) {</span>
+       <span class="s2">//inflate layout</span>
+        <span class="s1">View view = LayoutInflater.from(context).inflate(R.layout.row_product_seller</span><span class="s0">,</span><span class="s1">parent</span><span class="s0">,false</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s0">return new </span><span class="s1">HolderProductSeller(view)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onBindViewHolder(@NonNull HolderProductSeller holder</span><span class="s0">,int </span><span class="s1">position) {</span>
+      <span class="s2">//get data</span>
+       <span class="s0">final </span><span class="s1">ModelProduct modelProduct = productList.get(position)</span><span class="s0">;</span>
+        <span class="s1">String id = modelProduct.getProductId()</span><span class="s0">;</span>
+        <span class="s1">String uid = modelProduct.getUid()</span><span class="s0">;</span>
+        <span class="s1">String discountAvailable = modelProduct.getDiscountAvailable()</span><span class="s0">;</span>
+        <span class="s1">String discountNote = modelProduct.getDiscountNote()</span><span class="s0">;</span>
+        <span class="s1">String discountPrice = modelProduct.getDiscountPrice()</span><span class="s0">;</span>
+        <span class="s1">String productCategory = modelProduct.getProductCategory()</span><span class="s0">;</span>
+        <span class="s1">String productDescription = modelProduct.getProductDescription()</span><span class="s0">;</span>
+        <span class="s1">String icon = modelProduct.getProductIcon()</span><span class="s0">;</span>
+        <span class="s1">String quantity = modelProduct.getProductQuantity()</span><span class="s0">;</span>
+        <span class="s1">String title = modelProduct.getProductTitle()</span><span class="s0">;</span>
+        <span class="s1">String timestamp = modelProduct.getTimestamp()</span><span class="s0">;</span>
+        <span class="s1">String originalPrice = modelProduct.getOriginalPrice()</span><span class="s0">;</span>
+
+        <span class="s2">//set data</span>
+        <span class="s1">holder.titleTv.setText(title)</span><span class="s0">;</span>
+        <span class="s1">holder.quantityTv.setText(</span><span class="s3">&quot;Qty:&quot;</span><span class="s1">+quantity)</span><span class="s0">;</span>
+        <span class="s1">holder.discountNoteTv.setText(discountNote)</span><span class="s0">;</span>
+        <span class="s1">holder.discountPriceTv.setText(</span><span class="s3">&quot;₹&quot;</span><span class="s1">+discountPrice)</span><span class="s0">;</span>
+        <span class="s1">holder.originalPriceTv.setText(</span><span class="s3">&quot;₹&quot;</span><span class="s1">+originalPrice)</span><span class="s0">;</span>
+
+        <span class="s0">if</span><span class="s1">(discountAvailable.equals(</span><span class="s3">&quot;true&quot;</span><span class="s1">)){</span>
+            <span class="s2">//product is on discount</span>
+            <span class="s1">holder.discountPriceTv.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+            <span class="s1">holder.discountNoteTv.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+            <span class="s1">holder.originalPriceTv.setPaintFlags(holder.originalPriceTv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG)</span><span class="s0">; </span><span class="s2">// add strike through on original price</span>
+
+        <span class="s1">}</span>
+        <span class="s0">else</span>
+        <span class="s1">{</span>
+            <span class="s2">//product is not on discount</span>
+            <span class="s1">holder.discountPriceTv.setVisibility(View.GONE)</span><span class="s0">;</span>
+            <span class="s1">holder.discountNoteTv.setVisibility(View.GONE)</span><span class="s0">;</span>
+            <span class="s1">holder.originalPriceTv.setPaintFlags(</span><span class="s4">0</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s1">}</span>
+
+        <span class="s0">try</span><span class="s1">{</span>
+            <span class="s1">Picasso.get().load(icon).placeholder(R.drawable.ic_product_gray).into((holder.productIcon))</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">catch </span><span class="s1">(Exception e)</span>
+        <span class="s1">{</span>
+          <span class="s1">holder.productIcon.setImageResource(R.drawable.ic_product_gray)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">holder.itemView.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s2">// handle item clicks,show item details in the bottom sheet</span>
+                <span class="s1">detailsBottomSheet(modelProduct)</span><span class="s0">; </span><span class="s2">// here modelProduct contains details of clicked product</span>
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">detailsBottomSheet(ModelProduct modelProduct) {</span>
+        <span class="s2">//bottom sheet</span>
+        <span class="s1">BottomSheetDialog bottomSheetDialog = </span><span class="s0">new </span><span class="s1">BottomSheetDialog(context)</span><span class="s0">;</span>
+        <span class="s2">//inflate view for bottomSheet</span>
+        <span class="s1">View view = LayoutInflater.from(context).inflate(R.layout.bottom_product_details</span><span class="s0">,null</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">bottomSheetDialog.setContentView(view)</span><span class="s0">;</span>
+
+        <span class="s2">//show dialog</span>
+        <span class="s1">bottomSheetDialog.show()</span><span class="s0">;</span>
+
+        <span class="s2">//init views</span>
+
+        <span class="s1">ImageButton backBtn=view.findViewById(R.id.backBtn)</span><span class="s0">;</span>
+        <span class="s1">ImageButton deleteBtn=view.findViewById(R.id.deleteBtn)</span><span class="s0">;</span>
+        <span class="s1">ImageButton editBtn=view.findViewById(R.id.editBtn)</span><span class="s0">;</span>
+        <span class="s1">ImageView ProductIconIv=view.findViewById(R.id.ProductIconIv)</span><span class="s0">;</span>
+        <span class="s1">TextView discountNoteTv=view.findViewById(R.id.discountNoteTv)</span><span class="s0">;</span>
+        <span class="s1">TextView nameTv=view.findViewById(R.id.nameTv)</span><span class="s0">;</span>
+        <span class="s1">TextView titleTv=view.findViewById(R.id.titleTv)</span><span class="s0">;</span>
+        <span class="s1">TextView descriptionTv=view.findViewById(R.id.descriptionTv)</span><span class="s0">;</span>
+        <span class="s1">TextView categoryTv=view.findViewById(R.id.categoryTv)</span><span class="s0">;</span>
+        <span class="s1">TextView quantityTv=view.findViewById(R.id.quantityTv)</span><span class="s0">;</span>
+        <span class="s1">TextView discountedPriceTv=view.findViewById(R.id.discountedPriceTv)</span><span class="s0">;</span>
+        <span class="s1">TextView originalPriceTv=view.findViewById(R.id.originalPriceTv)</span><span class="s0">;</span>
+
+        <span class="s2">//get Data</span>
+        <span class="s0">final </span><span class="s1">String id = modelProduct.getProductId()</span><span class="s0">;</span>
+        <span class="s1">String uid = modelProduct.getUid()</span><span class="s0">;</span>
+        <span class="s1">String discountAvailable = modelProduct.getDiscountAvailable()</span><span class="s0">;</span>
+        <span class="s1">String discountNote = modelProduct.getDiscountNote()</span><span class="s0">;</span>
+        <span class="s1">String discountPrice = modelProduct.getDiscountPrice()</span><span class="s0">;</span>
+        <span class="s1">String productCategory = modelProduct.getProductCategory()</span><span class="s0">;</span>
+        <span class="s1">String productDescription = modelProduct.getProductDescription()</span><span class="s0">;</span>
+        <span class="s1">String icon = modelProduct.getProductIcon()</span><span class="s0">;</span>
+        <span class="s1">String quantity = modelProduct.getProductQuantity()</span><span class="s0">;</span>
+        <span class="s1">String title = modelProduct.getProductTitle()</span><span class="s0">;</span>
+        <span class="s1">String timestamp = modelProduct.getTimestamp()</span><span class="s0">;</span>
+        <span class="s1">String originalPrice = modelProduct.getOriginalPrice()</span><span class="s0">;</span>
+
+        <span class="s2">//set Data</span>
+        <span class="s1">titleTv.setText(title)</span><span class="s0">;</span>
+        <span class="s1">descriptionTv.setText(productDescription)</span><span class="s0">;</span>
+        <span class="s1">categoryTv.setText(productCategory)</span><span class="s0">;</span>
+        <span class="s1">quantityTv.setText(quantity)</span><span class="s0">;</span>
+        <span class="s1">discountNoteTv.setText(discountNote)</span><span class="s0">;</span>
+        <span class="s1">discountedPriceTv.setText(</span><span class="s3">&quot;₹&quot; </span><span class="s1">+ discountPrice)</span><span class="s0">;</span>
+        <span class="s1">originalPriceTv.setText(</span><span class="s3">&quot;₹&quot; </span><span class="s1">+ originalPrice)</span><span class="s0">;</span>
+
+        <span class="s0">if</span><span class="s1">(discountAvailable.equals(</span><span class="s3">&quot;true&quot;</span><span class="s1">)){</span>
+            <span class="s2">//product is on discount</span>
+            <span class="s1">discountedPriceTv.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+            <span class="s1">discountNoteTv.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+            <span class="s1">originalPriceTv.setPaintFlags(originalPriceTv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG)</span><span class="s0">; </span><span class="s2">// add strike through on original price</span>
+
+        <span class="s1">}</span>
+        <span class="s0">else</span>
+        <span class="s1">{</span>
+            <span class="s2">//product is not on discount</span>
+            <span class="s1">discountedPriceTv.setVisibility(View.GONE)</span><span class="s0">;</span>
+            <span class="s1">discountNoteTv.setVisibility(View.GONE)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+
+        <span class="s0">try</span><span class="s1">{</span>
+            <span class="s1">Picasso.get().load(icon).placeholder(R.drawable.product_icon).into((ProductIconIv))</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">catch </span><span class="s1">(Exception e)</span>
+        <span class="s1">{</span>
+            <span class="s1">ProductIconIv.setImageResource(R.drawable.product_icon)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+        <span class="s2">//show dialog</span>
+        <span class="s1">bottomSheetDialog.show()</span><span class="s0">;</span>
+
+        <span class="s2">//edit click</span>
+        <span class="s1">editBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s1">bottomSheetDialog.dismiss()</span><span class="s0">;</span>
+             <span class="s2">//open editProduct Activity, pass id of product</span>
+                <span class="s1">Intent intent = </span><span class="s0">new </span><span class="s1">Intent(context</span><span class="s0">,</span><span class="s1">EditProductActivity.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">intent.putExtra(</span><span class="s3">&quot;productId&quot;</span><span class="s0">, </span><span class="s1">id)</span><span class="s0">;</span>
+                <span class="s1">context.startActivity(intent)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s2">//delete Click</span>
+        <span class="s1">deleteBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s1">bottomSheetDialog.dismiss()</span><span class="s0">;</span>
+                <span class="s2">//show delete confirm dialog</span>
+                <span class="s1">AlertDialog.Builder builder = </span><span class="s0">new </span><span class="s1">AlertDialog.Builder(context)</span><span class="s0">;</span>
+                <span class="s1">builder.setTitle(</span><span class="s3">&quot;Delete&quot;</span><span class="s1">)</span>
+                        <span class="s1">.setMessage(</span><span class="s3">&quot;Are you sure you want to delete product&quot;</span><span class="s1">+</span><span class="s3">&quot; &quot;</span><span class="s1">+title+</span><span class="s3">&quot;?&quot;</span><span class="s1">)</span>
+                        <span class="s1">.setPositiveButton(</span><span class="s3">&quot;YES&quot;</span><span class="s0">,new </span><span class="s1">DialogInterface.OnClickListener() {</span>
+                            <span class="s1">@Override</span>
+                            <span class="s0">public void </span><span class="s1">onClick(DialogInterface dialog</span><span class="s0">,int </span><span class="s1">which) {</span>
+                                <span class="s2">//delete</span>
+                                <span class="s1">deleteProduct(id)</span><span class="s0">; </span><span class="s2">//id is the product id</span>
+                            <span class="s1">}</span>
+                        <span class="s1">})</span>
+                        <span class="s1">.setNegativeButton(</span><span class="s3">&quot;NO&quot;</span><span class="s0">,new </span><span class="s1">DialogInterface.OnClickListener() {</span>
+                            <span class="s1">@Override</span>
+                            <span class="s0">public void </span><span class="s1">onClick(DialogInterface dialog</span><span class="s0">,int </span><span class="s1">which) {</span>
+                                <span class="s2">//cancel,dismiss dialog</span>
+                                <span class="s1">dialog.dismiss()</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+                        <span class="s1">})</span>
+                        <span class="s1">.show()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s2">//back click</span>
+        <span class="s1">backBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+              <span class="s2">//dismiss bottom sheet</span>
+                <span class="s1">bottomSheetDialog.dismiss()</span><span class="s0">;</span>
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">deleteProduct(String id) {</span>
+        <span class="s1">FirebaseAuth firebaseAuth = FirebaseAuth.getInstance()</span><span class="s0">;</span>
+        <span class="s1">DatabaseReference reference = FirebaseDatabase.getInstance().getReference(</span><span class="s3">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">reference.child(firebaseAuth.getUid()).child(</span><span class="s3">&quot;Products&quot;</span><span class="s1">).child(id).removeValue()</span>
+                <span class="s1">.addOnSuccessListener(</span><span class="s0">new </span><span class="s1">OnSuccessListener&lt;Void&gt;() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onSuccess(Void aVoid) {</span>
+                    <span class="s2">// product deleted</span>
+                        <span class="s1">Toast.makeText(context</span><span class="s0">,</span><span class="s3">&quot;Product Deleted&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">})</span>
+                <span class="s1">.addOnFailureListener(</span><span class="s0">new </span><span class="s1">OnFailureListener() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onFailure(@NonNull Exception e) {</span>
+                        <span class="s2">//failed deleting product</span>
+                        <span class="s1">Toast.makeText(context</span><span class="s0">,</span><span class="s3">&quot;&quot;</span><span class="s1">+e.getMessage()</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public int </span><span class="s1">getItemCount() {</span>
+        <span class="s0">return </span><span class="s1">productList.size()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">Filter getFilter() {</span>
+        <span class="s0">if</span><span class="s1">(filter==</span><span class="s0">null</span><span class="s1">){</span>
+            <span class="s1">filter = </span><span class="s0">new </span><span class="s1">FilterProduct(</span><span class="s0">this,</span><span class="s1">filterList)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">return </span><span class="s1">filter</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">class </span><span class="s1">HolderProductSeller </span><span class="s0">extends </span><span class="s1">RecyclerView.ViewHolder {</span>
+       <span class="s2">//holds views of recyclerview</span>
+        <span class="s0">private </span><span class="s1">ImageView productIcon</span><span class="s0">;</span>
+        <span class="s0">private </span><span class="s1">TextView discountNoteTv</span><span class="s0">,</span><span class="s1">titleTv</span><span class="s0">, </span><span class="s1">quantityTv</span><span class="s0">,</span><span class="s1">discountPriceTv</span><span class="s0">,</span><span class="s1">originalPriceTv</span><span class="s0">;</span>
+        <span class="s0">public </span><span class="s1">HolderProductSeller(@NonNull View itemView) {</span>
+            <span class="s0">super</span><span class="s1">(itemView)</span><span class="s0">;</span>
+
+            <span class="s1">productIcon=itemView.findViewById(R.id.productIcon)</span><span class="s0">;</span>
+            <span class="s1">discountNoteTv=itemView.findViewById(R.id.discountNoteTv)</span><span class="s0">;</span>
+            <span class="s1">titleTv=itemView.findViewById(R.id.titleTv)</span><span class="s0">;</span>
+            <span class="s1">quantityTv=itemView.findViewById(R.id.quantityTv)</span><span class="s0">;</span>
+            <span class="s1">discountPriceTv=itemView.findViewById(R.id.discountPriceTv)</span><span class="s0">;</span>
+            <span class="s1">originalPriceTv=itemView.findViewById(R.id.originalPriceTv)</span><span class="s0">;</span>
+
+        <span class="s1">}</span>
+
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

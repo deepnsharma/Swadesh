@@ -1,0 +1,322 @@
+<html>
+<head>
+<title>AdapterProductBuyer.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+AdapterProductBuyer.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.vocal.triunity.adapters</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.app.AlertDialog</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.Context</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.graphics.Paint</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.icu.lang.UCharacter</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.LayoutInflater</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Button</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Filter</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Filterable</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ImageButton</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ImageView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.RecyclerView</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.squareup.picasso.Picasso</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.FilterProductBuyer</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.R</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.models.ModelProduct</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">p32929.androideasysql_library.Column</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">p32929.androideasysql_library.EasyDB</span><span class="s0">;</span>
+
+
+<span class="s0">public class </span><span class="s1">AdapterProductBuyer </span><span class="s0">extends </span><span class="s1">RecyclerView.Adapter&lt;AdapterProductBuyer.HolderProductBuyer&gt; </span><span class="s0">implements </span><span class="s1">Filterable {</span>
+
+
+    <span class="s0">private </span><span class="s1">Context context</span><span class="s0">;</span>
+    <span class="s0">public </span><span class="s1">ArrayList&lt;ModelProduct&gt; productsList</span><span class="s0">,</span><span class="s1">filterList</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">FilterProductBuyer filter</span><span class="s0">;</span>
+
+    <span class="s0">public </span><span class="s1">AdapterProductBuyer(Context context</span><span class="s0">,</span><span class="s1">ArrayList&lt;ModelProduct&gt; productsList) {</span>
+        <span class="s0">this</span><span class="s1">.context = context</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.productsList = productsList</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.filterList = productsList</span><span class="s0">;</span>
+
+    <span class="s1">}</span>
+
+    <span class="s1">@NonNull</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">HolderProductBuyer onCreateViewHolder(@NonNull ViewGroup parent</span><span class="s0">,int </span><span class="s1">viewType) {</span>
+        <span class="s2">//inflate layout</span>
+        <span class="s1">View view = LayoutInflater.from(context).inflate(R.layout.row_product_buyer</span><span class="s0">,</span><span class="s1">parent</span><span class="s0">,false</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s0">return new </span><span class="s1">HolderProductBuyer(view)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onBindViewHolder(@NonNull HolderProductBuyer holder</span><span class="s0">,int </span><span class="s1">position) {</span>
+
+        <span class="s2">//get data</span>
+        <span class="s1">ModelProduct modelProduct = productsList.get(position)</span><span class="s0">;</span>
+        <span class="s1">String discountAvailable = modelProduct.getDiscountAvailable()</span><span class="s0">;</span>
+        <span class="s1">String discountNote = modelProduct.getDiscountNote()</span><span class="s0">;</span>
+        <span class="s1">String discountPrice = modelProduct.getDiscountPrice()</span><span class="s0">;</span>
+        <span class="s1">String productCategory = modelProduct.getProductCategory()</span><span class="s0">;</span>
+        <span class="s1">String originalPrice = modelProduct.getOriginalPrice()</span><span class="s0">;</span>
+        <span class="s1">String productDescription = modelProduct.getProductDescription()</span><span class="s0">;</span>
+        <span class="s1">String productTitle = modelProduct.getProductTitle()</span><span class="s0">;</span>
+        <span class="s1">String productQuantity = modelProduct.getProductQuantity()</span><span class="s0">;</span>
+        <span class="s1">String productId = modelProduct.getProductId()</span><span class="s0">;</span>
+        <span class="s1">String productIcon = modelProduct.getProductIcon()</span><span class="s0">;</span>
+        <span class="s1">String timestamp = modelProduct.getTimestamp()</span><span class="s0">;</span>
+
+        <span class="s2">//set data</span>
+        <span class="s1">holder.titleTv.setText(productTitle)</span><span class="s0">;</span>
+        <span class="s1">holder.discountNoteTv.setText(discountNote)</span><span class="s0">;</span>
+        <span class="s1">holder.descriptionTv.setText(productDescription)</span><span class="s0">;</span>
+        <span class="s1">holder.discountPriceTv.setText(</span><span class="s3">&quot;₹&quot;</span><span class="s1">+discountPrice)</span><span class="s0">;</span>
+        <span class="s1">holder.originalPriceTv.setText(</span><span class="s3">&quot;₹&quot;</span><span class="s1">+originalPrice)</span><span class="s0">;</span>
+
+        <span class="s0">if</span><span class="s1">(discountAvailable.equals(</span><span class="s3">&quot;true&quot;</span><span class="s1">)){</span>
+            <span class="s2">//product is on discount</span>
+            <span class="s1">holder.discountPriceTv.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+            <span class="s1">holder.discountNoteTv.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+            <span class="s1">holder.originalPriceTv.setPaintFlags(holder.originalPriceTv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG)</span><span class="s0">; </span><span class="s2">// add strike through on original price</span>
+
+        <span class="s1">}</span>
+        <span class="s0">else</span>
+        <span class="s1">{</span>
+            <span class="s2">//product is not on discount</span>
+            <span class="s1">holder.discountPriceTv.setVisibility(View.GONE)</span><span class="s0">;</span>
+            <span class="s1">holder.discountNoteTv.setVisibility(View.GONE)</span><span class="s0">;</span>
+            <span class="s1">holder.originalPriceTv.setPaintFlags(</span><span class="s4">0</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+        <span class="s0">try</span><span class="s1">{</span>
+            <span class="s1">Picasso.get().load(productIcon).placeholder(R.drawable.ic_product_gray).into((holder.productIcon))</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">catch </span><span class="s1">(Exception e)</span>
+        <span class="s1">{</span>
+            <span class="s1">holder.productIcon.setImageResource(R.drawable.ic_product_gray)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">holder.addToCartTv.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s2">//add product to cart</span>
+                <span class="s1">showQuantityDialog(modelProduct)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">holder.itemView.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s2">//show product details</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+
+    <span class="s1">}</span>
+
+    <span class="s0">private double </span><span class="s1">cost=</span><span class="s4">0</span><span class="s0">;</span>
+    <span class="s0">private double </span><span class="s1">finalCost=</span><span class="s4">0</span><span class="s0">;</span>
+    <span class="s0">private int </span><span class="s1">quantity=</span><span class="s4">0</span><span class="s0">;</span>
+
+    <span class="s0">private void </span><span class="s1">showQuantityDialog(ModelProduct modelProduct) {</span>
+        <span class="s2">//inflate layout for dialog</span>
+        <span class="s1">View view = LayoutInflater.from(context).inflate(R.layout.dialog_quantity</span><span class="s0">,null</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s2">//init layout views</span>
+        <span class="s1">ImageView productIv = view.findViewById(R.id.productIv)</span><span class="s0">;</span>
+        <span class="s1">TextView pTitleTv = view.findViewById(R.id.pTitleTv)</span><span class="s0">;</span>
+        <span class="s1">TextView pQuantityTv = view.findViewById(R.id.pQuantityTv)</span><span class="s0">;</span>
+        <span class="s1">TextView descriptionTv = view.findViewById(R.id.descriptionTv)</span><span class="s0">;</span>
+        <span class="s1">TextView discountNoteTv = view.findViewById(R.id.discountNoteTv)</span><span class="s0">;</span>
+        <span class="s1">TextView originalPriceTv = view.findViewById(R.id.originalPriceTv)</span><span class="s0">;</span>
+        <span class="s1">TextView priceDiscountedTv = view.findViewById(R.id.priceDiscountedTv)</span><span class="s0">;</span>
+        <span class="s1">TextView finalPriceTv = view.findViewById(R.id.finalPriceTv)</span><span class="s0">;</span>
+        <span class="s1">TextView quantityTv = view.findViewById(R.id.quantityTv)</span><span class="s0">;</span>
+        <span class="s1">ImageButton decrementBtn = view.findViewById(R.id.decrementBtn)</span><span class="s0">;</span>
+        <span class="s1">ImageButton incrementBtn = view.findViewById(R.id.incrementBtn)</span><span class="s0">;</span>
+        <span class="s1">Button continueBtn = view.findViewById(R.id.continueBtn)</span><span class="s0">;</span>
+
+
+        <span class="s1">String productId = modelProduct.getProductId()</span><span class="s0">;</span>
+        <span class="s1">String title = modelProduct.getProductTitle()</span><span class="s0">;</span>
+        <span class="s1">String Description = modelProduct.getProductDescription()</span><span class="s0">;</span>
+        <span class="s1">String productQuantity = modelProduct.getProductQuantity()</span><span class="s0">;</span>
+        <span class="s1">String discountNote = modelProduct.getDiscountNote()</span><span class="s0">;</span>
+        <span class="s1">String image = modelProduct.getProductIcon()</span><span class="s0">;</span>
+
+        <span class="s0">final </span><span class="s1">String price</span><span class="s0">;</span>
+
+        <span class="s0">if</span><span class="s1">(modelProduct.getDiscountAvailable().equals(</span><span class="s3">&quot;true&quot;</span><span class="s1">)){</span>
+            <span class="s2">// product have discount</span>
+            <span class="s1">price = modelProduct.getDiscountPrice()</span><span class="s0">;</span>
+            <span class="s1">discountNoteTv.setVisibility(View.VISIBLE)</span><span class="s0">;</span>
+            <span class="s1">originalPriceTv.setPaintFlags(originalPriceTv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG)</span><span class="s0">;</span>
+
+        <span class="s1">}</span>
+
+        <span class="s0">else</span><span class="s1">{</span>
+            <span class="s2">//product don't have discount</span>
+            <span class="s1">discountNoteTv.setVisibility(View.GONE)</span><span class="s0">;</span>
+            <span class="s1">priceDiscountedTv.setVisibility(View.GONE)</span><span class="s0">;</span>
+            <span class="s1">price = modelProduct.getOriginalPrice()</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">cost = Double.parseDouble(price.replaceAll(</span><span class="s3">&quot;₹&quot;</span><span class="s0">,</span><span class="s3">&quot;&quot;</span><span class="s1">))</span><span class="s0">;</span>
+        <span class="s1">finalCost = Double.parseDouble(price.replaceAll(</span><span class="s3">&quot;₹&quot;</span><span class="s0">,</span><span class="s3">&quot;&quot;</span><span class="s1">))</span><span class="s0">;</span>
+        <span class="s1">quantity = </span><span class="s4">1</span><span class="s0">;</span>
+
+        <span class="s2">//dialog</span>
+        <span class="s1">AlertDialog.Builder builder = </span><span class="s0">new </span><span class="s1">AlertDialog.Builder(context)</span><span class="s0">;</span>
+        <span class="s1">builder.setView(view)</span><span class="s0">;</span>
+
+        <span class="s0">try</span><span class="s1">{</span>
+            <span class="s1">Picasso.get().load(image).placeholder(R.drawable.ic_cart_gray).into(productIv)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">catch </span><span class="s1">(Exception e){</span>
+            <span class="s1">productIv.setImageResource(R.drawable.ic_cart_gray)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">pTitleTv.setText(</span><span class="s3">&quot;&quot;</span><span class="s1">+title)</span><span class="s0">;</span>
+        <span class="s1">pQuantityTv.setText(</span><span class="s3">&quot;&quot;</span><span class="s1">+productQuantity)</span><span class="s0">;</span>
+        <span class="s1">descriptionTv.setText(</span><span class="s3">&quot;&quot;</span><span class="s1">+Description)</span><span class="s0">;</span>
+        <span class="s1">discountNoteTv.setText(</span><span class="s3">&quot;&quot;</span><span class="s1">+discountNote)</span><span class="s0">;</span>
+        <span class="s1">quantityTv.setText(</span><span class="s3">&quot;&quot;</span><span class="s1">+quantity)</span><span class="s0">;</span>
+        <span class="s1">originalPriceTv.setText(</span><span class="s3">&quot;₹&quot;</span><span class="s1">+modelProduct.getOriginalPrice())</span><span class="s0">;</span>
+        <span class="s1">priceDiscountedTv.setText(</span><span class="s3">&quot;₹&quot;</span><span class="s1">+modelProduct.getDiscountPrice())</span><span class="s0">;</span>
+        <span class="s1">finalPriceTv.setText(</span><span class="s3">&quot;₹&quot;</span><span class="s1">+finalCost)</span><span class="s0">;</span>
+
+        <span class="s1">AlertDialog dialog = builder.create()</span><span class="s0">;</span>
+        <span class="s1">dialog.show()</span><span class="s0">;</span>
+
+        <span class="s2">//increase quantity</span>
+        <span class="s1">incrementBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+             <span class="s1">finalCost = finalCost + cost</span><span class="s0">;</span>
+             <span class="s1">quantity++</span><span class="s0">;</span>
+
+             <span class="s1">finalPriceTv.setText(</span><span class="s3">&quot;₹&quot; </span><span class="s1">+ finalCost)</span><span class="s0">;</span>
+             <span class="s1">quantityTv.setText(</span><span class="s3">&quot;&quot;</span><span class="s1">+quantity)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">decrementBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+                <span class="s0">if</span><span class="s1">(quantity&gt;</span><span class="s4">1</span><span class="s1">){</span>
+                    <span class="s1">finalCost = finalCost - cost</span><span class="s0">;</span>
+                    <span class="s1">quantity--</span><span class="s0">;</span>
+
+                    <span class="s1">finalPriceTv.setText(</span><span class="s3">&quot;₹&quot; </span><span class="s1">+ finalCost)</span><span class="s0">;</span>
+                    <span class="s1">quantityTv.setText(</span><span class="s3">&quot;&quot;</span><span class="s1">+quantity)</span><span class="s0">;</span>
+
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">continueBtn.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+
+                <span class="s1">String title = pTitleTv.getText().toString().trim()</span><span class="s0">;</span>
+                <span class="s1">String priceEach = price</span><span class="s0">;</span>
+                <span class="s1">String totalPrice = finalPriceTv.getText().toString().trim().replace(</span><span class="s3">&quot;₹&quot;</span><span class="s0">,</span><span class="s3">&quot;&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">String quantity = quantityTv.getText().toString().trim()</span><span class="s0">;</span>
+
+                <span class="s2">//add to db</span>
+                <span class="s1">addToCart(productId</span><span class="s0">,</span><span class="s1">title</span><span class="s0">,</span><span class="s1">priceEach</span><span class="s0">,</span><span class="s1">totalPrice</span><span class="s0">,</span><span class="s1">quantity)</span><span class="s0">;</span>
+                <span class="s1">dialog.dismiss()</span><span class="s0">;</span>
+
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+
+    <span class="s1">}</span>
+
+    <span class="s0">private int </span><span class="s1">itemId = </span><span class="s4">1</span><span class="s0">;</span>
+    <span class="s0">private void </span><span class="s1">addToCart(String productId</span><span class="s0">,</span><span class="s1">String title</span><span class="s0">,</span><span class="s1">String priceEach</span><span class="s0">,</span><span class="s1">String price</span><span class="s0">,</span><span class="s1">String quantity) {</span>
+
+        <span class="s1">itemId++</span><span class="s0">;</span>
+        <span class="s1">EasyDB easyDB= EasyDB.init(context</span><span class="s0">,</span><span class="s3">&quot;ITEMS_DB&quot;</span><span class="s1">)</span>
+                <span class="s1">.setTableName(</span><span class="s3">&quot;ITEMS_TABLE&quot;</span><span class="s1">)</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Id&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;unique&quot;</span><span class="s1">}))</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_PID&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Name&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Price_Each&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Price&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                <span class="s1">.addColumn(</span><span class="s0">new </span><span class="s1">Column(</span><span class="s3">&quot;Item_Quantity&quot;</span><span class="s0">,new </span><span class="s1">String[]{</span><span class="s3">&quot;text&quot;</span><span class="s0">,</span><span class="s3">&quot;not null&quot;</span><span class="s1">}))</span>
+                <span class="s1">.doneTableColumn()</span><span class="s0">;</span>
+
+        <span class="s1">Boolean b = easyDB.addData(</span><span class="s3">&quot;Item_Id&quot;</span><span class="s0">,</span><span class="s1">itemId)</span>
+                <span class="s1">.addData(</span><span class="s3">&quot;Item_PID&quot;</span><span class="s0">,</span><span class="s1">productId)</span>
+                <span class="s1">.addData(</span><span class="s3">&quot;Item_Name&quot;</span><span class="s0">,</span><span class="s1">title)</span>
+                <span class="s1">.addData(</span><span class="s3">&quot;Item_Price_Each&quot;</span><span class="s0">,</span><span class="s1">priceEach)</span>
+                <span class="s1">.addData(</span><span class="s3">&quot;Item_Price&quot;</span><span class="s0">,</span><span class="s1">price)</span>
+                <span class="s1">.addData(</span><span class="s3">&quot;Item_Quantity&quot;</span><span class="s0">,</span><span class="s1">quantity)</span>
+                <span class="s1">.doneDataAdding()</span><span class="s0">;</span>
+
+         <span class="s1">Toast.makeText(context</span><span class="s0">,</span><span class="s3">&quot;Added to cart..&quot;</span><span class="s0">,</span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public int </span><span class="s1">getItemCount() {</span>
+        <span class="s0">return </span><span class="s1">productsList.size()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">Filter getFilter() {</span>
+        <span class="s0">if</span><span class="s1">(filter == </span><span class="s0">null</span><span class="s1">){</span>
+            <span class="s1">filter = </span><span class="s0">new </span><span class="s1">FilterProductBuyer(</span><span class="s0">this,</span><span class="s1">filterList)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+        <span class="s0">return </span><span class="s1">filter</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">class </span><span class="s1">HolderProductBuyer </span><span class="s0">extends </span><span class="s1">RecyclerView.ViewHolder{</span>
+
+        <span class="s2">//ui Views</span>
+        <span class="s0">private </span><span class="s1">ImageView productIcon</span><span class="s0">,</span><span class="s1">nextIv</span><span class="s0">;</span>
+        <span class="s0">private </span><span class="s1">TextView discountNoteTv</span><span class="s0">,</span><span class="s1">titleTv</span><span class="s0">,</span><span class="s1">descriptionTv</span><span class="s0">,</span><span class="s1">addToCartTv</span><span class="s0">,</span><span class="s1">discountPriceTv</span><span class="s0">,</span><span class="s1">originalPriceTv</span><span class="s0">;</span>
+
+
+        <span class="s0">public </span><span class="s1">HolderProductBuyer(@NonNull View itemView) {</span>
+            <span class="s0">super</span><span class="s1">(itemView)</span><span class="s0">;</span>
+
+            <span class="s1">productIcon=itemView.findViewById(R.id.productIcon)</span><span class="s0">;</span>
+            <span class="s1">nextIv=itemView.findViewById(R.id.nextIv)</span><span class="s0">;</span>
+            <span class="s1">discountNoteTv=itemView.findViewById(R.id.discountNoteTv)</span><span class="s0">;</span>
+            <span class="s1">titleTv=itemView.findViewById(R.id.titleTv)</span><span class="s0">;</span>
+            <span class="s1">descriptionTv=itemView.findViewById(R.id.descriptionTv)</span><span class="s0">;</span>
+            <span class="s1">addToCartTv=itemView.findViewById(R.id.addToCartTv)</span><span class="s0">;</span>
+            <span class="s1">discountPriceTv=itemView.findViewById(R.id.discountPriceTv)</span><span class="s0">;</span>
+            <span class="s1">originalPriceTv=itemView.findViewById(R.id.originalPriceTv)</span><span class="s0">;</span>
+
+
+
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

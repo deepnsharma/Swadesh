@@ -1,0 +1,243 @@
+<html>
+<head>
+<title>activity_buyer.xml</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #e8bf6a;}
+.s1 { color: #bababa;}
+.s2 { color: #6a8759;}
+.s3 { color: #a9b7c6;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+activity_buyer.xml</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;?</span><span class="s1">xml version</span><span class="s2">=&quot;1.0&quot; </span><span class="s1">encoding</span><span class="s2">=&quot;utf-8&quot;</span><span class="s0">?&gt;</span>
+
+<span class="s0">&lt;LinearLayout </span><span class="s1">xmlns:android</span><span class="s2">=&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="s1">xmlns:app</span><span class="s2">=&quot;http://schemas.android.com/apk/res-auto&quot;</span>
+    <span class="s1">xmlns:tools</span><span class="s2">=&quot;http://schemas.android.com/tools&quot;</span>
+    <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+    <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+    <span class="s1">android:orientation</span><span class="s2">=&quot;vertical&quot;</span>
+    <span class="s1">android:background</span><span class="s2">=&quot;@drawable/w_back&quot;</span>
+    <span class="s1">tools:context</span><span class="s2">=&quot;.Buyer&quot;</span><span class="s0">&gt;</span>
+
+
+  <span class="s0">&lt;RelativeLayout</span>
+      <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+      <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+      <span class="s1">android:padding</span><span class="s2">=&quot;10dp&quot;</span><span class="s0">&gt;</span>
+
+      <span class="s0">&lt;ImageButton</span>
+        <span class="s1">android:id</span><span class="s2">=&quot;@+id/back_btn&quot;</span>
+        <span class="s1">android:layout_width</span><span class="s2">=&quot;30dp&quot;</span>
+        <span class="s1">android:layout_height</span><span class="s2">=&quot;30dp&quot;</span>
+        <span class="s1">android:background</span><span class="s2">=&quot;@null&quot;</span>
+        <span class="s1">android:src</span><span class="s2">=&quot;@drawable/ic_back&quot;</span>
+        <span class="s1">tools:ignore</span><span class="s2">=&quot;ContentDescription,RtlSymmetry&quot; </span><span class="s0">/&gt;</span>
+
+
+    <span class="s0">&lt;TextView</span>
+        <span class="s1">android:layout_width</span><span class="s2">=&quot;wrap_content&quot;</span>
+        <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+        <span class="s1">android:layout_centerHorizontal</span><span class="s2">=&quot;true&quot;</span>
+        <span class="s1">android:text</span><span class="s2">=&quot;@string/welcome&quot;</span>
+        <span class="s1">android:textColor</span><span class="s2">=&quot;@color/white&quot;</span>
+        <span class="s1">android:textSize</span><span class="s2">=&quot;18sp&quot;</span>
+        <span class="s1">tools:ignore</span><span class="s2">=&quot;RelativeOverlap&quot; </span><span class="s0">/&gt;</span>
+
+    <span class="s0">&lt;ImageButton</span>
+        <span class="s1">android:id</span><span class="s2">=&quot;@+id/gps_btn&quot;</span>
+        <span class="s1">android:layout_width</span><span class="s2">=&quot;wrap_content&quot;</span>
+        <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+        <span class="s1">android:layout_alignParentEnd</span><span class="s2">=&quot;true&quot;</span>
+        <span class="s1">android:background</span><span class="s2">=&quot;@null&quot;</span>
+        <span class="s1">android:src</span><span class="s2">=&quot;@drawable/ic_gps&quot;</span>
+        <span class="s1">tools:ignore</span><span class="s2">=&quot;ContentDescription,RtlSymmetry&quot; </span><span class="s0">/&gt;</span>
+
+  <span class="s0">&lt;/RelativeLayout&gt;</span>
+
+
+
+
+    <span class="s0">&lt;LinearLayout</span>
+        <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+        <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+        <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;50dp&quot;</span>
+        <span class="s1">android:orientation</span><span class="s2">=&quot;vertical&quot;</span>
+        <span class="s1">android:layout_gravity</span><span class="s2">=&quot;bottom&quot;</span>
+        <span class="s1">android:padding</span><span class="s2">=&quot;20dp&quot;</span><span class="s0">&gt;</span>
+
+
+        <span class="s0">&lt;TextView</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:text</span><span class="s2">=&quot;Sign Up!&quot;</span>
+            <span class="s1">android:textColor</span><span class="s2">=&quot;@color/colorOrange&quot;</span>
+            <span class="s1">android:textSize</span><span class="s2">=&quot;25sp&quot;</span>
+            <span class="s1">tools:ignore</span><span class="s2">=&quot;HardcodedText&quot; </span><span class="s0">/&gt;</span>
+
+
+        <span class="s0">&lt;com.google.android.material.textfield.TextInputLayout</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;10dp&quot;</span>
+            <span class="s1">android:focusable</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:focusableInTouchMode</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:textColorHint</span><span class="s2">=&quot;#000000&quot;</span><span class="s0">&gt;</span>
+
+            <span class="s0">&lt;com.google.android.material.textfield.TextInputEditText</span>
+                <span class="s1">android:id</span><span class="s2">=&quot;@+id/RegName&quot;</span>
+                <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+                <span class="s1">android:autofillHints</span><span class="s2">=&quot;&quot;</span>
+                <span class="s1">android:ems</span><span class="s2">=&quot;10&quot;</span>
+                <span class="s1">android:hint</span><span class="s2">=&quot;Full name&quot;</span>
+                <span class="s1">android:inputType</span><span class="s2">=&quot;text&quot;</span>
+                <span class="s1">android:textSize</span><span class="s2">=&quot;18sp&quot;</span>
+                <span class="s1">tools:ignore</span><span class="s2">=&quot;HardcodedText&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;/com.google.android.material.textfield.TextInputLayout&gt;</span>
+
+
+        <span class="s0">&lt;com.google.android.material.textfield.TextInputLayout</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:focusable</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:focusableInTouchMode</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:textColorHint</span><span class="s2">=&quot;#000000&quot;</span><span class="s0">&gt;</span>
+
+            <span class="s0">&lt;com.google.android.material.textfield.TextInputEditText</span>
+
+                <span class="s1">android:id</span><span class="s2">=&quot;@+id/RegEmail&quot;</span>
+                <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+                <span class="s1">android:autofillHints</span><span class="s2">=&quot;&quot;</span>
+                <span class="s1">android:ems</span><span class="s2">=&quot;10&quot;</span>
+                <span class="s1">android:hint</span><span class="s2">=&quot;Email&quot;</span>
+                <span class="s1">android:inputType</span><span class="s2">=&quot;text&quot;</span>
+                <span class="s1">android:textSize</span><span class="s2">=&quot;18sp&quot;</span>
+                <span class="s1">tools:ignore</span><span class="s2">=&quot;HardcodedText,TextFields&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;/com.google.android.material.textfield.TextInputLayout&gt;</span>
+
+        <span class="s0">&lt;com.google.android.material.textfield.TextInputLayout</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:focusable</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:focusableInTouchMode</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:textColorHint</span><span class="s2">=&quot;#000000&quot;</span><span class="s0">&gt;</span>
+
+            <span class="s0">&lt;com.google.android.material.textfield.TextInputEditText</span>
+
+                <span class="s1">android:id</span><span class="s2">=&quot;@+id/RegPhone&quot;</span>
+                <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+                <span class="s1">android:autofillHints</span><span class="s2">=&quot;&quot;</span>
+                <span class="s1">android:ems</span><span class="s2">=&quot;10&quot;</span>
+                <span class="s1">android:hint</span><span class="s2">=&quot;Phone&quot;</span>
+                <span class="s1">android:inputType</span><span class="s2">=&quot;text&quot;</span>
+                <span class="s1">android:textSize</span><span class="s2">=&quot;18sp&quot;</span>
+                <span class="s1">tools:ignore</span><span class="s2">=&quot;HardcodedText,TextFields&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;/com.google.android.material.textfield.TextInputLayout&gt;</span>
+
+
+        <span class="s0">&lt;com.google.android.material.textfield.TextInputLayout</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:focusable</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:focusableInTouchMode</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:textColorHint</span><span class="s2">=&quot;#000000&quot;</span>
+            <span class="s1">tools:ignore</span><span class="s2">=&quot;ExtraText&quot;</span><span class="s0">&gt;</span>
+
+            <span class="s0">&lt;com.google.android.material.textfield.TextInputEditText</span>
+                <span class="s1">android:id</span><span class="s2">=&quot;@+id/c_address&quot;</span>
+                <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+                <span class="s1">android:autofillHints</span><span class="s2">=&quot;&quot;</span>
+                <span class="s1">android:ems</span><span class="s2">=&quot;10&quot;</span>
+                <span class="s1">android:hint</span><span class="s2">=&quot;Complete Address&quot;</span>
+                <span class="s1">android:inputType</span><span class="s2">=&quot;textPostalAddress|textMultiLine&quot;</span>
+                <span class="s1">android:textSize</span><span class="s2">=&quot;18sp&quot;</span>
+                <span class="s1">tools:ignore</span><span class="s2">=&quot;HardcodedText&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;/com.google.android.material.textfield.TextInputLayout&gt;</span>
+
+        <span class="s0">&lt;com.google.android.material.textfield.TextInputLayout</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:focusable</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:focusableInTouchMode</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:textColorHint</span><span class="s2">=&quot;#000000&quot;</span>
+            <span class="s1">app:passwordToggleEnabled</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">tools:ignore</span><span class="s2">=&quot;ExtraText&quot;</span><span class="s0">&gt;</span>
+
+            <span class="s0">&lt;com.google.android.material.textfield.TextInputEditText</span>
+                <span class="s1">android:id</span><span class="s2">=&quot;@+id/RegPass1&quot;</span>
+                <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+                <span class="s1">android:autofillHints</span><span class="s2">=&quot;&quot;</span>
+                <span class="s1">android:ems</span><span class="s2">=&quot;10&quot;</span>
+                <span class="s1">android:hint</span><span class="s2">=&quot;Password&quot;</span>
+                <span class="s1">android:inputType</span><span class="s2">=&quot;textPassword&quot;</span>
+                <span class="s1">android:textSize</span><span class="s2">=&quot;18sp&quot;</span>
+                <span class="s1">tools:ignore</span><span class="s2">=&quot;HardcodedText&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;/com.google.android.material.textfield.TextInputLayout&gt;</span>
+
+
+        <span class="s0">&lt;com.google.android.material.textfield.TextInputLayout</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:focusable</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:focusableInTouchMode</span><span class="s2">=&quot;true&quot;</span>
+            <span class="s1">android:textColorHint</span><span class="s2">=&quot;#000000&quot;</span>
+            <span class="s1">app:passwordToggleEnabled</span><span class="s2">=&quot;true&quot;</span><span class="s0">&gt;</span>
+
+            <span class="s0">&lt;com.google.android.material.textfield.TextInputEditText</span>
+
+                <span class="s1">android:id</span><span class="s2">=&quot;@+id/RegPass2&quot;</span>
+                <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+                <span class="s1">android:autofillHints</span><span class="s2">=&quot;&quot;</span>
+                <span class="s1">android:ems</span><span class="s2">=&quot;10&quot;</span>
+                <span class="s1">android:hint</span><span class="s2">=&quot;Confirm Password&quot;</span>
+                <span class="s1">android:inputType</span><span class="s2">=&quot;textPassword&quot;</span>
+                <span class="s1">android:textSize</span><span class="s2">=&quot;18sp&quot;</span>
+                <span class="s1">tools:ignore</span><span class="s2">=&quot;HardcodedText&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;/com.google.android.material.textfield.TextInputLayout&gt;</span>
+
+
+        <span class="s0">&lt;Button</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/RegBtn&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_gravity</span><span class="s2">=&quot;center&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;10dp&quot;</span>
+            <span class="s1">android:background</span><span class="s2">=&quot;@drawable/reg_btn&quot;</span>
+            <span class="s1">android:textSize</span><span class="s2">=&quot;20sp&quot;</span>
+            <span class="s1">tools:ignore</span><span class="s2">=&quot;HardcodedText&quot; </span><span class="s0">/&gt;</span>
+
+        <span class="s0">&lt;TextView</span>
+            <span class="s1">android:id</span><span class="s2">=&quot;@+id/s_reg&quot;</span>
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+            <span class="s1">android:layout_gravity</span><span class="s2">=&quot;center_horizontal&quot;</span>
+            <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;10dp&quot;</span>
+            <span class="s1">android:text</span><span class="s2">=&quot;@string/s_register&quot;</span>
+            <span class="s1">android:textColor</span><span class="s2">=&quot;#000000&quot; </span><span class="s0">/&gt;</span>
+
+
+    <span class="s0">&lt;/LinearLayout&gt;</span>
+
+
+
+<span class="s0">&lt;/LinearLayout&gt;</span></pre>
+</body>
+</html>

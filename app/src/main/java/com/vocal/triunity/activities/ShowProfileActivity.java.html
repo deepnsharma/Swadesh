@@ -1,0 +1,143 @@
+<html>
+<head>
+<title>ShowProfileActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+ShowProfileActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.vocal.triunity.activities</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.annotation.SuppressLint</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.ImageView</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">androidx.appcompat.widget.Toolbar</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">androidx.core.widget.NestedScrollView</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">com.google.android.material.appbar.CollapsingToolbarLayout</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.auth.FirebaseAuth</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DataSnapshot</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseError</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.DatabaseReference</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.FirebaseDatabase</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.google.firebase.database.ValueEventListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.squareup.picasso.Picasso</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">com.vocal.triunity.R</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">ShowProfileActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity {</span>
+
+
+    <span class="s1">ImageView Show_profile</span><span class="s0">;</span>
+    <span class="s1">TextView nameTextView</span><span class="s0">,</span><span class="s1">show_email</span><span class="s0">,</span><span class="s1">backPress</span><span class="s0">,</span><span class="s1">S_NameTV</span><span class="s0">,</span><span class="s1">Seller_Mobile</span><span class="s0">,</span><span class="s1">ShopName</span><span class="s0">,</span><span class="s1">SellerAdd</span><span class="s0">,</span><span class="s1">Show_email</span><span class="s0">;</span>
+    <span class="s1">NestedScrollView NestedScrollView</span><span class="s0">;</span>
+    <span class="s1">FirebaseAuth firebaseAuth</span><span class="s0">;</span>
+    <span class="s1">CollapsingToolbarLayout toolbar_layout</span><span class="s0">;</span>
+ <span class="s2">//   private Uri image_uri;</span>
+
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate(Bundle savedInstanceState) {</span>
+        <span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span>
+        <span class="s1">setContentView(R.layout.activity_show_profile)</span><span class="s0">;</span>
+        <span class="s1">Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar)</span><span class="s0">;</span>
+        <span class="s1">setSupportActionBar(toolbar)</span><span class="s0">;</span>
+        <span class="s1">toolbar_layout=findViewById(R.id.toolbar_layout)</span><span class="s0">;</span>
+        <span class="s1">View view=toolbar_layout</span><span class="s0">;</span>
+        <span class="s1">NestedScrollView=findViewById(R.id.NestedScrollView)</span><span class="s0">;</span>
+        <span class="s1">View view1=NestedScrollView</span><span class="s0">;</span>
+        <span class="s1">Show_profile=view.findViewById(R.id.Show_profile)</span><span class="s0">;</span>
+        <span class="s1">nameTextView=view.findViewById(R.id.nameTextView)</span><span class="s0">;</span>
+        <span class="s1">show_email=view.findViewById(R.id.show_email)</span><span class="s0">;</span>
+        <span class="s1">S_NameTV=view1.findViewById(R.id.S_NameTV)</span><span class="s0">;</span>
+        <span class="s1">Seller_Mobile=view1.findViewById(R.id.Seller_Mobile)</span><span class="s0">;</span>
+        <span class="s1">ShopName=view1.findViewById(R.id.ShopName)</span><span class="s0">;</span>
+        <span class="s1">SellerAdd=view1.findViewById(R.id.SellerAdd)</span><span class="s0">;</span>
+        <span class="s1">Show_email=view1.findViewById(R.id.Show_email)</span><span class="s0">;</span>
+        <span class="s1">backPress=findViewById(R.id.back_press)</span><span class="s0">;</span>
+        <span class="s1">firebaseAuth = FirebaseAuth.getInstance()</span><span class="s0">;</span>
+        <span class="s1">backPress.setOnClickListener(</span><span class="s0">new </span><span class="s1">View.OnClickListener() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onClick(View v) {</span>
+               <span class="s1">startActivity(</span><span class="s0">new </span><span class="s1">Intent(ShowProfileActivity.</span><span class="s0">this,</span><span class="s1">MainSellerActivity.</span><span class="s0">class</span><span class="s1">))</span><span class="s0">;</span>
+               <span class="s1">finish()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">DatabaseReference ref = FirebaseDatabase.getInstance( ).getReference(</span><span class="s3">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">ref.orderByChild(</span><span class="s3">&quot;uid&quot;</span><span class="s1">).equalTo(firebaseAuth.getUid( ))</span>
+                <span class="s1">.addValueEventListener(</span><span class="s0">new </span><span class="s1">ValueEventListener( ) {</span>
+                    <span class="s1">@SuppressLint(</span><span class="s3">&quot;SetTextI18n&quot;</span><span class="s1">)</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onDataChange(@NonNull DataSnapshot snapshot) {</span>
+
+                        <span class="s0">for </span><span class="s1">(DataSnapshot ds : snapshot.getChildren( )) {</span>
+                            <span class="s1">String name = </span><span class="s3">&quot;&quot; </span><span class="s1">+ ds.child(</span><span class="s3">&quot;name&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                            <span class="s1">String shopName = </span><span class="s3">&quot;&quot; </span><span class="s1">+ ds.child(</span><span class="s3">&quot;shopName&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                            <span class="s1">String email = </span><span class="s3">&quot;&quot; </span><span class="s1">+ ds.child(</span><span class="s3">&quot;email&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                            <span class="s1">String phone = </span><span class="s3">&quot;&quot; </span><span class="s1">+ ds.child(</span><span class="s3">&quot;phone&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                            <span class="s1">String add = </span><span class="s3">&quot;&quot; </span><span class="s1">+ ds.child(</span><span class="s3">&quot;address&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                            <span class="s1">nameTextView.setText(name)</span><span class="s0">;</span>
+                            <span class="s1">show_email.setText(email)</span><span class="s0">;</span>
+                            <span class="s1">S_NameTV.setText(name)</span><span class="s0">;</span>
+                            <span class="s1">Seller_Mobile.setText(phone)</span><span class="s0">;</span>
+                            <span class="s1">ShopName.setText(shopName)</span><span class="s0">;</span>
+                            <span class="s1">SellerAdd.setText(add)</span><span class="s0">;</span>
+                            <span class="s1">Show_email.setText(email)</span><span class="s0">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">}</span>
+
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onCancelled(@NonNull DatabaseError error) {</span>
+
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+
+        <span class="s1">DatabaseReference reference = FirebaseDatabase.getInstance().getReference(</span><span class="s3">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">reference.child(firebaseAuth.getUid()).child(</span><span class="s3">&quot;SellerProfile&quot;</span><span class="s1">)</span>
+                <span class="s1">.addValueEventListener(</span><span class="s0">new </span><span class="s1">ValueEventListener() {</span>
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onDataChange(@NonNull DataSnapshot snapshot) {</span>
+                        <span class="s0">for</span><span class="s1">( DataSnapshot ds: snapshot.getChildren()){</span>
+                            <span class="s1">String profileImage = </span><span class="s3">&quot;&quot;</span><span class="s1">+ds.child(</span><span class="s3">&quot;profile&quot;</span><span class="s1">).getValue()</span><span class="s0">;</span>
+                            <span class="s0">try</span><span class="s1">{</span>
+                                <span class="s1">Picasso.get().load(profileImage).placeholder(R.drawable.user_profile).into(Show_profile)</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+                            <span class="s0">catch</span><span class="s1">(Exception e){</span>
+                                <span class="s1">Show_profile.setImageResource(R.drawable.user_profile)</span><span class="s0">;</span>
+                            <span class="s1">}</span>
+                        <span class="s1">}</span>
+
+                    <span class="s1">}</span>
+
+                    <span class="s1">@Override</span>
+                    <span class="s0">public void </span><span class="s1">onCancelled(@NonNull DatabaseError error) {</span>
+
+                    <span class="s1">}</span>
+                <span class="s1">})</span><span class="s0">;</span>
+
+
+    <span class="s1">}</span>
+
+
+
+
+
+<span class="s1">}</span></pre>
+</body>
+</html>
