@@ -1,3 +1,5 @@
+#Swadesh
+<br>
 VFL - Vocal For Local is an app designed specifically for the people of India who dont have a specified name or brand in the market,so this app was designed to help such people.
 This app provide such people a plaatform to sell their product to a wide range of people, to reach out to people.This app includes features like adding the
 product you want to sell and also include delivery status indicator for example Completed,In Order and Pending also Filter Order based on status,
