@@ -6,5 +6,5 @@ product you want to sell and also include delivery status indicator for example 
 This app includes direct call feature, you can talk to the selller directly and negotiate for pricing using contact number and includes GPS Map System for order delivery status, it also includes notification options, which will show you
 if anyone has messaged you.This app includes fragments which have options like adding the product you want to sell and contains the list of items he has already added.
 Then home fragments contain the list of products and the third one is saved products which will contain the products we have added to the bucket list.
-In th top right corner we have included search bar from which we can search for a product. Alos we have included the navigation bar which will maintain the profile of the
+In th top right corner we have included search bar from which we can search for a product. Also we have included the navigation bar which will maintain the profile of the
 app user. In it , it also include my previous orders.
