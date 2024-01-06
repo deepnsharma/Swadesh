@@ -1,10 +1,8 @@
 #Swadesh
 <br>
-VFL - Vocal For Local is an app designed specifically for the people of India who dont have a specified name or brand in the market,so this app was designed to help such people.
-This app provide such people a platform to sell their product to a wide range of people, to reach out to people.This app includes features like adding the
-product you want to sell and also include delivery status indicator for example Completed,In Order and Pending also Filter Order based on status,
-This app includes direct call feature, you can talk to the selller directly and negotiate for pricing using contact number and includes GPS Map System for order delivery status, it also includes notification options, which will show you
-if anyone has messaged you.This app includes fragments which have options like adding the product you want to sell and contains the list of items he has already added.
-Then home fragments contain the list of products and the third one is saved products which will contain the products we have added to the bucket list.
-In th top right corner we have included search bar from which we can search for a product. Also we have included the navigation bar which will maintain the profile of the
-app user. In it , it also include my previous orders.
+
+VFL - Vocal For Local is an app designed specifically for individuals in India who lack a recognized name or brand in the market. This app aims to assist such people by providing a platform to sell their products to a wider audience and connect with potential customers. The app offers features such as the ability to add products for sale, a delivery status indicator (including options like Completed, In Order, and Pending), and the ability to filter orders based on their status.
+
+Moreover, the app includes a direct call feature, enabling users to communicate directly with sellers and negotiate pricing using contact numbers. It also incorporates a GPS Map System for tracking order delivery status. Notification options are available to alert users when they receive messages. The app utilizes fragments, including options for adding products for sale and displaying a list of already added items. The home fragment showcases a list of available products, while the third fragment displays saved products added to the bucket list.
+
+In the top right corner, a search bar allows users to search for specific products. Additionally, a navigation bar maintains the user's profile, providing access to previous orders.
